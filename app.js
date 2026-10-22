@@ -1,32 +1,29 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("SIS — NIGHT CITY initialized");
+  // تفعيل البطاقات لتصبح قابلة للضغط
+  document.querySelectorAll(".card").forEach((card) => {
+    card.style.cursor = "pointer";
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
 
-  // البحث داخل عناصر التطبيق
-  const searchInputs = document.querySelectorAll(
-    'input[type="search"], [data-search]'
-  );
+    function openSection() {
+      const title = card.querySelector("h2")?.textContent || "القسم";
 
-  searchInputs.forEach((input) => {
-    input.addEventListener("input", () => {
-      const query = input.value.trim().toLowerCase();
-
-      const section =
-        input.closest("section") || document;
-
-      const items = section.querySelectorAll(
-        "[data-searchable], .card"
+      alert(
+        title +
+        "\n\nهذا القسم قيد التجهيز في نظام SIS — NIGHT CITY."
       );
+    }
 
-      items.forEach((item) => {
-        const text = item.textContent.toLowerCase();
+    card.addEventListener("click", openSection);
 
-        item.hidden =
-          query !== "" && !text.includes(query);
-      });
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openSection();
+      }
     });
   });
 
-  // تأكيد تشغيل الواجهة
+  // إظهار أن التطبيق تم تحميله
   document.documentElement.dataset.appReady = "true";
 });

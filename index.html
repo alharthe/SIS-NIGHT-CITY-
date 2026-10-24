@@ -1,107 +1,318 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090909">
-<title>SIS — NIGHT CITY</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#090909;color:#eee;font-family:Arial,san s-serif;min-height:100vh}
-header{padding:20px;background:#111;border-bottom:2px solid #c21d30;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:27px;font-weight:900;letter-spacing:3px;color:#ef263b}
-.subtitle{font-size:10px;color:#999;margin-top:5px;letter-spacing:1px}
-.badge{border:1px solid #444;padding:8px 10px;border-radius:20px;font-size:11px;color:#ddd}
-main{max-width:1000px;margin:auto;padding:22px 16px}
-.hero{background:linear-gradient(135deg,#241014,#111 75%);border:1px solid #48212a;border-radius:14px;padding:27px 20px}
-.eyebrow{font-size:11px;letter-spacing:2px;color:#ef263b;margin-bottom:14px}
-h1{font-size:27px;margin-bottom:13px}
-.hero p{font-size:14px;color:#bbb;line-height:2}
-.status{display:inline-block;margin-top:18px;padding:8px 11px;border-radius:20px;background:#291317;border:1px solid #54212b;color:#f1bdc3;font-size:11px}
-.section-title{font-size:18px;margin:28px 0 14px}
-.section-title span{color:#ef263b}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{background:#141414;border:1px solid #292929;border-right:3px solid #b51c2c;border-radius:11px;padding:18px;min-height:135px}
-.symbol{font-size:23px;color:#ed3447;margin-bottom:14px}
-.card h2{font-size:15px;margin-bottom:9px}
-.card p{font-size:12px;color:#aaa;line-height:1.9}
-.tag{display:inline-block;margin-top:12px;font-size:10px;color:#e8aeb5;background:#271317;padding:5px 8px;border-radius:5px}
-.notice{margin-top:20px;padding:15px;background:#131313;border:1px solid #292929;border-radius:9px;color:#aaa;font-size:12px;line-height:2}
-footer{text-align:center;padding:28px 12px;color:#666;font-size:11px}
-@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}main{padding-top:32px}.hero{padding:36px}}
-@media(max-width:360px){.grid{grid-template-columns:1fr}h1{font-size:23px}.logo{font-size:22px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080C12">
+  <meta name="description" content="SIS — British Intelligence Agency | NIGHT CITY">
+  <title>SIS — BRITISH INTELLIGENCE</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <div>
-    <div class="logo">SIS <span style="color:#fff">/ NC</span></div>
-    <div class="subtitle">SECRET INTELLIGENCE SYSTEM</div>
+
+  <!-- خلفية النظام -->
+  <div class="ambient-background" aria-hidden="true">
+    <div class="ambient-glow ambient-glow-one"></div>
+    <div class="ambient-glow ambient-glow-two"></div>
+    <div class="background-grid"></div>
   </div>
-  <div class="badge">NIGHT CITY</div>
-</header>
 
-<main>
-  <section class="hero">
-    <div class="eyebrow">NIGHT CITY • INTELLIGENCE</div>
-    <h1>مركز الاستخبارات السرية</h1>
-    <p>مرحبًا بك في نظام SIS التابع لـ NIGHT CITY. مركز موحد لتنظيم الملفات والمعلومات والتقارير والروابط الاستخباراتية.</p>
-    <div class="status">● النسخة الأولية قيد التطوير</div>
-  </section>
+  <!-- الشريط العلوي -->
+  <header class="topbar">
+    <a href="#home" class="brand" data-page="home" aria-label="SIS الرئيسية">
+      <span class="brand-emblem">
+        <span class="emblem-inner">SIS</span>
+      </span>
 
-  <h2 class="section-title"><span>■</span> الأنظمة الرئيسية</h2>
+      <span class="brand-copy">
+        <strong>SIS</strong>
+        <small>BRITISH INTELLIGENCE</small>
+      </span>
+    </a>
 
-  <section class="grid">
-    <article class="card">
-      <div class="symbol">▤</div>
-      <h2>الملفات الاستخباراتية</h2>
-      <p>قسم مخصص لتنظيم ملفات الشخصيات والمعلومات والتقارير.</p>
-      <span class="tag">قيد التطوير</span>
-    </article>
+    <div class="topbar-center">
+      <span class="classification-dot"></span>
+      <span>SECURE COMMAND INTERFACE</span>
+    </div>
 
-    <article class="card">
-      <div class="symbol">⌘</div>
-      <h2>NETWORK</h2>
-      <p>تصور مبدئي لربط الملفات والأشخاص والتقارير والعلاقات.</p>
-      <span class="tag">قيد التطوير</span>
-    </article>
+    <div class="topbar-actions">
+      <div class="system-status">
+        <span class="status-dot"></span>
+        <span>النظام جاهز</span>
+      </div>
 
-    <article class="card">
-      <div class="symbol">AI</div>
-      <h2>SIS AI</h2>
-      <p>قسم المساعد الذكي لتحليل المعلومات المحفوظة والإجابة عنها.</p>
-      <span class="tag">قيد التطوير</span>
-    </article>
+      <button
+        class="menu-toggle"
+        id="menu-toggle"
+        type="button"
+        aria-label="فتح القائمة"
+        aria-expanded="false"
+        aria-controls="sidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
 
-    <article class="card">
-      <div class="symbol">▧</div>
-      <h2>التقارير</h2>
-      <p>قسم لتنظيم التقارير والملخصات وربطها بالملفات ذات الصلة.</p>
-      <span class="tag">قيد التطوير</span>
-    </article>
+  <!-- هيكل التطبيق -->
+  <div class="app-shell">
 
-    <article class="card">
-      <div class="symbol">⌕</div>
-      <h2>البحث المركزي</h2>
-      <p>واجهة مخصصة للبحث في البيانات عند إضافة وظيفة البحث.</p>
-      <span class="tag">قيد التطوير</span>
-    </article>
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 
-    <article class="card">
-      <div class="symbol">⚙</div>
-      <h2>إعدادات النظام</h2>
-      <p>قسم مخصص لإعدادات النظام وإدارته مستقبلًا.</p>
-      <span class="tag">قيد التطوير</span>
-    </article>
-  </section>
+    <!-- القائمة الجانبية -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-profile">
+        <div class="sidebar-seal">S</div>
+        <div class="sidebar-profile-copy">
+          <strong>مركز الوكالة</strong>
+          <small>DIRECTORATE SYSTEM</small>
+        </div>
+      </div>
 
-  <div class="notice">
-    <strong style="color:#eee">تنبيه النظام</strong><br>
-    هذه النسخة واجهة أولية فقط. حفظ البيانات وقاعدة البيانات وتسجيل الدخول والبحث الفعلي ومساعد الذكاء الاصطناعي تحتاج إلى برمجة وربط خدمات إضافية.
-  </div>
-</main>
+      <div class="sidebar-label">القائمة الرئيسية</div>
 
-<footer>SIS — NIGHT CITY © 2026</footer>
-<script src="sis-system.js"></script>
-<script src="app.js"></script></body>
-</html>
+      <nav class="nav-list" aria-label="القائمة الرئيسية">
+        <button class="nav-item active" data-page="home">
+          <span class="nav-icon">⌂</span>
+          <span class="nav-text">الصفحة الرئيسية</span>
+          <span class="nav-indicator"></span>
+        </button>
+
+        <button class="nav-item" data-page="profile">
+          <span class="nav-icon">♙</span>
+          <span class="nav-text">ملف المستخدم</span>
+        </button>
+
+        <button class="nav-item" data-page="map">
+          <span class="nav-icon">⌖</span>
+          <span class="nav-text">الخريطة الرئيسية</span>
+        </button>
+
+        <button class="nav-item" data-page="headquarters">
+          <span class="nav-icon">▥</span>
+          <span class="nav-text">مقرات الوكالة</span>
+        </button>
+
+        <button class="nav-item" data-page="members">
+          <span class="nav-icon">♧</span>
+          <span class="nav-text">الأعضاء والرتب</span>
+        </button>
+
+        <button class="nav-item" data-page="missions">
+          <span class="nav-icon">◈</span>
+          <span class="nav-text">المهام والمكافآت</span>
+        </button>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">الأنظمة المتخصصة</div>
+
+        <button class="nav-item" data-page="network">
+          <span class="nav-icon">⌘</span>
+          <span class="nav-text">NETWORK</span>
+        </button>
+
+        <button class="nav-item" data-page="store">
+          <span class="nav-icon">◇</span>
+          <span class="nav-text">متجر الوكالة</span>
+        </button>
+
+        <button class="nav-item" data-page="ai">
+          <span class="nav-icon">✧</span>
+          <span class="nav-text">SIS AI</span>
+          <span class="nav-tag">AI</span>
+        </button>
+
+        <button class="nav-item" data-page="settings">
+          <span class="nav-icon">⚙</span>
+          <span class="nav-text">إعدادات النظام</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-security">
+          <span class="security-symbol">◈</span>
+          <div>
+            <strong>SECURE ENVIRONMENT</strong>
+            <small>بيئة تشغيل تجريبية</small>
+          </div>
+        </div>
+
+        <div class="sidebar-footer">
+          <span>SIS — NIGHT CITY</span>
+          <span>v1.0</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content" id="main-content">
+
+      <!-- شاشة الترحيب -->
+      <section class="welcome-hero" id="welcome-banner">
+        <div class="hero-image-layer" aria-hidden="true"></div>
+        <div class="hero-vignette" aria-hidden="true"></div>
+        <div class="hero-grid" aria-hidden="true"></div>
+
+        <div class="hero-seal" aria-hidden="true">
+          <span class="hero-seal-top">INTELLIGENCE</span>
+          <span class="hero-seal-center">SIS</span>
+          <span class="hero-seal-bottom">NIGHT CITY</span>
+        </div>
+
+        <div class="hero-content">
+          <div class="classification-label">
+            <span class="classification-line"></span>
+            <span>BRITISH INTELLIGENCE AGENCY</span>
+          </div>
+
+          <p class="hero-greeting">السلام عليكم</p>
+
+          <h1>
+            مرحباً بك في
+            <span>الوكالة الاستخباراتية البريطانية</span>
+          </h1>
+
+          <p class="hero-description">
+            بوابتك إلى مركز العمليات، وإدارة الأعضاء، والمقرات،
+            والمهام، والشبكات الاستخباراتية.
+          </p>
+
+          <div class="hero-actions">
+            <button class="primary-button" data-page="map">
+              <span>⌖</span>
+              دخول مركز العمليات
+              <span class="button-arrow">←</span>
+            </button>
+
+            <button class="secondary-button" data-page="profile">
+              ملف المستخدم
+            </button>
+          </div>
+
+          <div class="hero-footer-meta">
+            <span><i class="meta-square"></i> SIS DIRECTORATE</span>
+            <span>CONFIDENTIAL · NIGHT CITY</span>
+          </div>
+        </div>
+
+        <div class="hero-corner hero-corner-top"></div>
+        <div class="hero-corner hero-corner-bottom"></div>
+      </section>
+
+      <!-- لوحة التحكم -->
+      <section class="dashboard-section" id="dashboard-section">
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">AGENCY OVERVIEW / 01</p>
+            <h2>مركز العمليات</h2>
+            <p class="section-subtitle">
+              نظرة عامة على أنظمة الوكالة وأقسامها.
+            </p>
+          </div>
+
+          <div class="section-stamp">
+            <span class="stamp-symbol">S</span>
+            <span>OFFICIAL<br>DIRECTORATE</span>
+          </div>
+        </div>
+
+        <!-- إحصائيات -->
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>إجمالي الأعضاء</span>
+              <span class="stat-icon">♧</span>
+            </div>
+            <strong id="people-count">0</strong>
+            <small>ملفات الأعضاء المسجلة</small>
+            <div class="stat-bottom-line"></div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>المقرات</span>
+              <span class="stat-icon">▥</span>
+            </div>
+            <strong id="headquarters-count">0</strong>
+            <small>مواقع الوكالة المسجلة</small>
+            <div class="stat-bottom-line"></div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>المهام</span>
+              <span class="stat-icon">◈</span>
+            </div>
+            <strong id="missions-count">0</strong>
+            <small>المهام المسجلة في النظام</small>
+            <div class="stat-bottom-line"></div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>الشبكات</span>
+              <span class="stat-icon">⌘</span>
+            </div>
+            <strong id="network-count">0 / 100</strong>
+            <small>مساحة الشبكات المتاحة</small>
+            <div class="stat-bottom-line"></div>
+          </article>
+        </div>
+
+        <!-- المقر الرئيسي -->
+        <section class="featured-headquarters">
+          <div class="featured-image">
+            <div class="image-overlay"></div>
+            <div class="image-classification">HEADQUARTERS / SIS</div>
+            <div class="featured-image-caption">
+              <span class="featured-icon">▥</span>
+              <div>
+                <strong>المقر الرئيسي</strong>
+                <small>BRITISH INTELLIGENCE DIRECTORATE</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="featured-details">
+            <p class="eyebrow">CENTRAL DIRECTORATE</p>
+            <h3>المقر المركزي للوكالة</h3>
+            <p>
+              مساحة مخصصة لعرض المقر الرسمي، وصور المبنى،
+              ووصف الموقع، والمعلومات التي ستضيفها لاحقاً.
+            </p>
+
+            <div class="featured-meta">
+              <span class="status-dot"></span>
+              <span>ملف المقر جاهز للتخصيص</span>
+            </div>
+
+            <button class="text-button" data-page="headquarters">
+              إدارة المقرات <span>←</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- الأطقم الخاصة -->
+        <section class="teams-section">
+          <div class="section-heading compact-heading">
+            <div>
+              <p class="eyebrow">SPECIALIZED DIRECTORATES</p>
+              <h2>فرق الوكالة</h2>
+              <p class="section-subtitle">
+                الأطقم والأقسام المتخصصة داخل الوكالة.
+              </p>
+            </div>
+
+            <button class="text-button" data-page="members">
+              إدارة الفرق ←
+            </button>
+          </div>
+
+          <div class="teams-grid">
+
+            <article class="team-card">
+              <div class="team-image team-image-operations">
+        

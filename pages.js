@@ -145,8 +145,7 @@
     save();
   }
 
-  function ensureStyles() {
-    if (document.getElementById("sis-pages-style")) return;
+      (document.getElementById("sis-pages-style")) return;
     const style = document.createElement("style");
     style.id = "sis-pages-style";
     style.textContent = `

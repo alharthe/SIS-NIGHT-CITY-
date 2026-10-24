@@ -2,317 +2,246 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080C12">
-  <meta name="description" content="SIS — British Intelligence Agency | NIGHT CITY">
-  <title>SIS — BRITISH INTELLIGENCE</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>SIS — BRITISH INTELLIGENCE | NIGHT CITY</title>
+
+<style>
+:root {
+  --bg:#080808;
+  --panel:#141414;
+  --panel2:#1d1d1d;
+  --red:#e3263a;
+  --red-dark:#8f101e;
+  --gold:#c5a66a;
+  --text:#f3f3f3;
+  --muted:#aaa;
+  --border:#303030;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Tahoma,sans-serif;line-height:1.7
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+header{
+  padding:18px;display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;
+  background:#101010;border-bottom:2px solid var(--red)
+}
+.brand{font-weight:bold;color:var(--gold);letter-spacing:1px}
+.header-status{font-size:12px;color:var(--muted)}
+.layout{display:flex;min-height:calc(100vh - 75px)}
+aside{
+  width:245px;flex-shrink:0;padding:16px;
+  background:#101010;border-left:1px solid var(--border)
+}
+.nav-title{font-size:11px;color:var(--gold);margin:12px 8px}
+nav{display:grid;gap:7px}
+.nav-btn,.btn{
+  border:1px solid var(--border);border-radius:8px;
+  padding:11px 13px;background:var(--panel2);color:var(--text);
+  text-align:right;transition:.2s
+}
+.nav-btn:hover,.btn:hover{border-color:var(--red);background:#292020}
+.nav-btn.active{background:var(--red-dark);border-color:var(--red)}
+main{min-width:0;flex:1;padding:24px;width:100%}
+.mobile-menu{display:none}
+.eyebrow{color:var(--red);font-size:12px;letter-spacing:1px}
+h1,h2,h3{line-height:1.4}
+h1{font-size:clamp(24px,4vw,36px);margin:6px 0}
+.muted{color:var(--muted)}
+.page{display:none;animation:appear .2s ease}
+.page.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.hero{
+  padding:30px 24px;background:linear-gradient(120deg,#241014,#111);
+  border:1px solid #54212a;border-radius:14px;margin-bottom:20px
+}
+.hero h2{color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.card{
+  min-width:0;background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:18px;margin-bottom:14px
+}
+.stat strong{display:block;color:var(--gold);font-size:30px}
+.stat span{font-size:12px;color:var(--muted)}
+label{display:grid;gap:6px;margin-bottom:12px;font-size:13px}
+input,textarea,select{
+  width:100%;padding:11px;background:#090909;color:var(--text);
+  border:1px solid #444;border-radius:7px
+}
+textarea{resize:vertical}
+.btn{display:inline-block;text-align:center;background:var(--red-dark);margin:4px 0}
+.btn.secondary{background:#222}
+.btn.danger{background:#48151b}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.item{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:12px 0;border-bottom:1px solid var(--border)
+}
+.item:last-child{border-bottom:0}
+.item p{margin:3px 0;color:var(--muted);font-size:13px}
+.badge{color:var(--gold);font-size:12px}
+.empty{color:var(--muted);padding:16px 0}
+#toast{
+  position:fixed;bottom:18px;left:18px;z-index:20;
+  background:#202020;border:1px solid var(--gold);
+  border-radius:8px;padding:12px 18px;display:none
+}
+footer{padding:22px;text-align:center;color:var(--muted);font-size:12px}
+@media(max-width:760px){
+  .layout{display:block}
+  aside{
+    display:none;width:100%;border-left:0;border-bottom:1px solid var(--border)
+  }
+  aside.open{display:block}
+  .mobile-menu{display:inline-block}
+  main{padding:15px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid{grid-template-columns:1fr}
+  .hero{padding:22px 17px}
+}
+</style>
 </head>
+
 <body>
-
-  <!-- خلفية النظام -->
-  <div class="ambient-background" aria-hidden="true">
-    <div class="ambient-glow ambient-glow-one"></div>
-    <div class="ambient-glow ambient-glow-two"></div>
-    <div class="background-grid"></div>
+<header>
+  <div>
+    <div class="brand">SIS — BRITISH INTELLIGENCE</div>
+    <div class="header-status">NIGHT CITY · SECURE COMMAND INTERFACE</div>
   </div>
+  <button class="btn mobile-menu" id="menuToggle">☰ القائمة</button>
+  <span class="badge">● واجهة النظام</span>
+</header>
 
-  <!-- الشريط العلوي -->
-  <header class="topbar">
-    <a href="#home" class="brand" data-page="home" aria-label="SIS الرئيسية">
-      <span class="brand-emblem">
-        <span class="emblem-inner">SIS</span>
-      </span>
+<div class="layout">
+<aside id="sidebar">
+  <div class="nav-title">القائمة الرئيسية</div>
+  <nav id="navigation">
+    <button class="nav-btn active" data-page="home">⌂ الصفحة الرئيسية</button>
+    <button class="nav-btn" data-page="profile">▣ ملف المستخدم</button>
+    <button class="nav-btn" data-page="map">⌖ الخريطة والمواقع</button>
+    <button class="nav-btn" data-page="headquarters">▦ مقر الوكالة</button>
+    <button class="nav-btn" data-page="members">♙ الأعضاء والرتب</button>
+    <button class="nav-btn" data-page="missions">◆ المهام والتكليفات</button>
+    <button class="nav-btn" data-page="network">⌘ NETWORK</button>
+    <button class="nav-btn" data-page="store">◇ متجر الوكالة</button>
+    <button class="nav-btn" data-page="ai">✦ SIS AI</button>
+    <button class="nav-btn" data-page="activity">▤ سجل النشاطات</button>
+    <button class="nav-btn" data-page="settings">⚙ إعدادات النظام</button>
+  </nav>
+</aside>
 
-      <span class="brand-copy">
-        <strong>SIS</strong>
-        <small>BRITISH INTELLIGENCE</small>
-      </span>
-    </a>
-
-    <div class="topbar-center">
-      <span class="classification-dot"></span>
-      <span>SECURE COMMAND INTERFACE</span>
+<main>
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="eyebrow">BRITISH INTELLIGENCE AGENCY</div>
+      <h1>مرحبًا بك في الوكالة الاستخباراتية البريطانية</h1>
+      <p class="muted">مركز موحد لإدارة الأعضاء والمهام والملفات وشبكة الأشخاص في NIGHT CITY.</p>
+      <div class="actions">
+        <button class="btn" data-go="headquarters">دخول مركز العمليات ←</button>
+        <button class="btn secondary" data-go="profile">ملف المستخدم</button>
+      </div>
     </div>
-
-    <div class="topbar-actions">
-      <div class="system-status">
-        <span class="status-dot"></span>
-        <span>النظام جاهز</span>
-      </div>
-
-      <button
-        class="menu-toggle"
-        id="menu-toggle"
-        type="button"
-        aria-label="فتح القائمة"
-        aria-expanded="false"
-        aria-controls="sidebar">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+    <div class="stats">
+      <div class="card stat"><span>الأعضاء</span><strong id="countMembers">0</strong></div>
+      <div class="card stat"><span>المهام</span><strong id="countMissions">0</strong></div>
+      <div class="card stat"><span>الشبكة</span><strong id="countNetwork">0</strong></div>
+      <div class="card stat"><span>النشاطات</span><strong id="countActivity">0</strong></div>
     </div>
-  </header>
-
-  <!-- هيكل التطبيق -->
-  <div class="app-shell">
-
-    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
-
-    <!-- القائمة الجانبية -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-profile">
-        <div class="sidebar-seal">S</div>
-        <div class="sidebar-profile-copy">
-          <strong>مركز الوكالة</strong>
-          <small>DIRECTORATE SYSTEM</small>
-        </div>
+    <div class="card">
+      <h3>مركز العمليات</h3>
+      <p class="muted">اختر أي قسم من القائمة للانتقال إليه. يمكنك أيضًا استخدام الأزرار السريعة أدناه.</p>
+      <div class="actions">
+        <button class="btn" data-go="members">إدارة الأعضاء</button>
+        <button class="btn" data-go="missions">إدارة المهام</button>
+        <button class="btn" data-go="network">فتح NETWORK</button>
+        <button class="btn" data-go="settings">الإعدادات</button>
       </div>
+    </div>
+  </section>
 
-      <div class="sidebar-label">القائمة الرئيسية</div>
+  <section class="page" id="page-profile">
+    <div class="eyebrow">PERSONNEL RECORD</div><h1>ملف المستخدم</h1>
+    <div class="card">
+      <form id="profileForm">
+        <label>الاسم<input name="name" required placeholder="اسم المستخدم"></label>
+        <label>الرتبة<input name="rank" placeholder="الرتبة"></label>
+        <label>القسم<input name="department" placeholder="القسم"></label>
+        <button class="btn">حفظ الملف</button>
+      </form>
+    </div>
+  </section>
 
-      <nav class="nav-list" aria-label="القائمة الرئيسية">
-        <button class="nav-item active" data-page="home">
-          <span class="nav-icon">⌂</span>
-          <span class="nav-text">الصفحة الرئيسية</span>
-          <span class="nav-indicator"></span>
-        </button>
+  <section class="page" id="page-map">
+    <div class="eyebrow">LOCATION REGISTER</div><h1>الخريطة والمواقع</h1>
+    <div class="card">
+      <form id="locationForm">
+        <label>اسم الموقع<input name="name" required placeholder="اسم الموقع"></label>
+        <label>الملاحظات<textarea name="notes" rows="3" placeholder="تفاصيل الموقع"></textarea></label>
+        <button class="btn">حفظ الموقع</button>
+      </form>
+    </div>
+    <div class="card"><h3>المواقع المحفوظة</h3><div id="locationsList"></div></div>
+  </section>
 
-        <button class="nav-item" data-page="profile">
-          <span class="nav-icon">♙</span>
-          <span class="nav-text">ملف المستخدم</span>
-        </button>
-
-        <button class="nav-item" data-page="map">
-          <span class="nav-icon">⌖</span>
-          <span class="nav-text">الخريطة الرئيسية</span>
-        </button>
-
-        <button class="nav-item" data-page="headquarters">
-          <span class="nav-icon">▥</span>
-          <span class="nav-text">مقرات الوكالة</span>
-        </button>
-
-        <button class="nav-item" data-page="members">
-          <span class="nav-icon">♧</span>
-          <span class="nav-text">الأعضاء والرتب</span>
-        </button>
-
-        <button class="nav-item" data-page="missions">
-          <span class="nav-icon">◈</span>
-          <span class="nav-text">المهام والمكافآت</span>
-        </button>
-
-        <div class="sidebar-divider"></div>
-        <div class="sidebar-label">الأنظمة المتخصصة</div>
-
-        <button class="nav-item" data-page="network">
-          <span class="nav-icon">⌘</span>
-          <span class="nav-text">NETWORK</span>
-        </button>
-
-        <button class="nav-item" data-page="store">
-          <span class="nav-icon">◇</span>
-          <span class="nav-text">متجر الوكالة</span>
-        </button>
-
-        <button class="nav-item" data-page="ai">
-          <span class="nav-icon">✧</span>
-          <span class="nav-text">SIS AI</span>
-          <span class="nav-tag">AI</span>
-        </button>
-
-        <button class="nav-item" data-page="settings">
-          <span class="nav-icon">⚙</span>
-          <span class="nav-text">إعدادات النظام</span>
-        </button>
-      </nav>
-
-      <div class="sidebar-bottom">
-        <div class="sidebar-security">
-          <span class="security-symbol">◈</span>
-          <div>
-            <strong>SECURE ENVIRONMENT</strong>
-            <small>بيئة تشغيل تجريبية</small>
-          </div>
-        </div>
-
-        <div class="sidebar-footer">
-          <span>SIS — NIGHT CITY</span>
-          <span>v1.0</span>
-        </div>
+  <section class="page" id="page-headquarters">
+    <div class="eyebrow">DIRECTORATE SYSTEM</div><h1>مقر الوكالة</h1>
+    <div class="card">
+      <h3>اختصارات المقر</h3>
+      <div class="actions">
+        <button class="btn" data-go="members">الأعضاء</button>
+        <button class="btn" data-go="missions">المهام</button>
+        <button class="btn" data-go="network">الشبكة</button>
+        <button class="btn" data-go="activity">السجلات</button>
       </div>
-    </aside>
+    </div>
+    <div class="card"><h3>معلومات النظام</h3><p class="muted">هذه نسخة تجريبية محلية، وليست نظامًا مرتبطًا بخادم مركزي.</p></div>
+  </section>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="main-content" id="main-content">
+  <section class="page" id="page-members">
+    <div class="eyebrow">PERSONNEL DATABASE</div><h1>الأعضاء والرتب</h1>
+    <div class="card">
+      <form id="memberForm">
+        <label>اسم العضو<input name="name" required placeholder="الاسم"></label>
+        <label>الرتبة<input name="rank" required placeholder="الرتبة"></label>
+        <label>القسم<input name="department" placeholder="القسم"></label>
+        <button class="btn">＋ إضافة عضو</button>
+      </form>
+    </div>
+    <div class="card"><h3>قائمة الأعضاء</h3><div id="membersList"></div></div>
+  </section>
 
-      <!-- شاشة الترحيب -->
-      <section class="welcome-hero" id="welcome-banner">
-        <div class="hero-image-layer" aria-hidden="true"></div>
-        <div class="hero-vignette" aria-hidden="true"></div>
-        <div class="hero-grid" aria-hidden="true"></div>
+  <section class="page" id="page-missions">
+    <div class="eyebrow">MISSION CONTROL</div><h1>المهام والتكليفات</h1>
+    <div class="card">
+      <form id="missionForm">
+        <label>عنوان المهمة<input name="title" required placeholder="عنوان المهمة"></label>
+        <label>التفاصيل<textarea name="details" rows="3" placeholder="تفاصيل المهمة"></textarea></label>
+        <label>الحالة<select name="status"><option>جديدة</option><option>قيد التنفيذ</option><option>مكتملة</option></select></label>
+        <button class="btn">＋ إضافة مهمة</button>
+      </form>
+    </div>
+    <div class="card"><h3>قائمة المهام</h3><div id="missionsList"></div></div>
+  </section>
 
-        <div class="hero-seal" aria-hidden="true">
-          <span class="hero-seal-top">INTELLIGENCE</span>
-          <span class="hero-seal-center">SIS</span>
-          <span class="hero-seal-bottom">NIGHT CITY</span>
-        </div>
+  <section class="page" id="page-network">
+    <div class="eyebrow">INTELLIGENCE NETWORK</div><h1>NETWORK — شبكة الأشخاص</h1>
+    <div class="card">
+      <form id="networkForm">
+        <label>اسم الشخص<input name="name" required placeholder="الاسم"></label>
+        <label>نوع العلاقة<input name="relation" placeholder="نوع العلاقة"></label>
+        <label>ملاحظات<textarea name="notes" rows="3" placeholder="ملاحظات"></textarea></label>
+        <button class="btn">＋ إضافة إلى الشبكة</button>
+      </form>
+    </div>
+    <div class="card"><h3>الأشخاص والعلاقات</h3><div id="networkList"></div></div>
+  </section>
 
-        <div class="hero-content">
-          <div class="classification-label">
-            <span class="classification-line"></span>
-            <span>BRITISH INTELLIGENCE AGENCY</span>
-          </div>
-
-          <p class="hero-greeting">السلام عليكم</p>
-
-          <h1>
-            مرحباً بك في
-            <span>الوكالة الاستخباراتية البريطانية</span>
-          </h1>
-
-          <p class="hero-description">
-            بوابتك إلى مركز العمليات، وإدارة الأعضاء، والمقرات،
-            والمهام، والشبكات الاستخباراتية.
-          </p>
-
-          <div class="hero-actions">
-            <button class="primary-button" data-page="map">
-              <span>⌖</span>
-              دخول مركز العمليات
-              <span class="button-arrow">←</span>
-            </button>
-
-            <button class="secondary-button" data-page="profile">
-              ملف المستخدم
-            </button>
-          </div>
-
-          <div class="hero-footer-meta">
-            <span><i class="meta-square"></i> SIS DIRECTORATE</span>
-            <span>CONFIDENTIAL · NIGHT CITY</span>
-          </div>
-        </div>
-
-        <div class="hero-corner hero-corner-top"></div>
-        <div class="hero-corner hero-corner-bottom"></div>
-      </section>
-
-      <!-- لوحة التحكم -->
-      <section class="dashboard-section" id="dashboard-section">
-
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">AGENCY OVERVIEW / 01</p>
-            <h2>مركز العمليات</h2>
-            <p class="section-subtitle">
-              نظرة عامة على أنظمة الوكالة وأقسامها.
-            </p>
-          </div>
-
-          <div class="section-stamp">
-            <span class="stamp-symbol">S</span>
-            <span>OFFICIAL<br>DIRECTORATE</span>
-          </div>
-        </div>
-
-        <!-- إحصائيات -->
-        <div class="stats-grid">
-          <article class="stat-card">
-            <div class="stat-top">
-              <span>إجمالي الأعضاء</span>
-              <span class="stat-icon">♧</span>
-            </div>
-            <strong id="people-count">0</strong>
-            <small>ملفات الأعضاء المسجلة</small>
-            <div class="stat-bottom-line"></div>
-          </article>
-
-          <article class="stat-card">
-            <div class="stat-top">
-              <span>المقرات</span>
-              <span class="stat-icon">▥</span>
-            </div>
-            <strong id="headquarters-count">0</strong>
-            <small>مواقع الوكالة المسجلة</small>
-            <div class="stat-bottom-line"></div>
-          </article>
-
-          <article class="stat-card">
-            <div class="stat-top">
-              <span>المهام</span>
-              <span class="stat-icon">◈</span>
-            </div>
-            <strong id="missions-count">0</strong>
-            <small>المهام المسجلة في النظام</small>
-            <div class="stat-bottom-line"></div>
-          </article>
-
-          <article class="stat-card">
-            <div class="stat-top">
-              <span>الشبكات</span>
-              <span class="stat-icon">⌘</span>
-            </div>
-            <strong id="network-count">0 / 100</strong>
-            <small>مساحة الشبكات المتاحة</small>
-            <div class="stat-bottom-line"></div>
-          </article>
-        </div>
-
-        <!-- المقر الرئيسي -->
-        <section class="featured-headquarters">
-          <div class="featured-image">
-            <div class="image-overlay"></div>
-            <div class="image-classification">HEADQUARTERS / SIS</div>
-            <div class="featured-image-caption">
-              <span class="featured-icon">▥</span>
-              <div>
-                <strong>المقر الرئيسي</strong>
-                <small>BRITISH INTELLIGENCE DIRECTORATE</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="featured-details">
-            <p class="eyebrow">CENTRAL DIRECTORATE</p>
-            <h3>المقر المركزي للوكالة</h3>
-            <p>
-              مساحة مخصصة لعرض المقر الرسمي، وصور المبنى،
-              ووصف الموقع، والمعلومات التي ستضيفها لاحقاً.
-            </p>
-
-            <div class="featured-meta">
-              <span class="status-dot"></span>
-              <span>ملف المقر جاهز للتخصيص</span>
-            </div>
-
-            <button class="text-button" data-page="headquarters">
-              إدارة المقرات <span>←</span>
-            </button>
-          </div>
-        </section>
-
-        <!-- الأطقم الخاصة -->
-        <section class="teams-section">
-          <div class="section-heading compact-heading">
-            <div>
-              <p class="eyebrow">SPECIALIZED DIRECTORATES</p>
-              <h2>فرق الوكالة</h2>
-              <p class="section-subtitle">
-                الأطقم والأقسام المتخصصة داخل الوكالة.
-              </p>
-            </div>
-
-            <button class="text-button" data-page="members">
-              إدارة الفرق ←
-            </button>
-          </div>
-
-          <div class="teams-grid">
-
-            <article class="team-card">
-              <div class="team-image team-image-operations">
-        
+  <section class="page" id="page-store">
+    <div class="eyebrow">AGENCY REWARDS</div><h1>متجر الوكالة</h1>
+    <div cla

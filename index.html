@@ -1,606 +1,145 @@
 
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#090909">
+<meta name="theme-color" content="#090c12">
 <title>SIS — NIGHT CITY</title>
 <style>
-:root{--bg:#090909;--panel:#141414;--red:#e3263a;--gold:#c8a45d;--text:#f4f4f4;--muted:#aaa;--line:#303030}
+:root{
+ --bg:#080b11;--panel:#101722;--panel2:#151e2b;
+ --gold:#c8aa72;--gold2:#e5d1a4;--red:#8e2934;
+ --text:#e9edf3;--muted:#8994a5;--line:#293342;
+ --green:#79bd96;--radius:17px;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,Tahoma,sans-serif;min-height:100vh}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-header{padding:20px;background:#111;border-bottom:2px solid var(--red);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.logo{font-size:23px;font-weight:bold;color:var(--red)}
-.logo span{color:var(--gold)}
-nav{display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:#101010}
-nav button,.btn{background:#202020;color:white;border:1px solid var(--line);padding:11px 15px;border-radius:9px}
-nav button:hover,.btn:hover{border-color:var(--red)}
-main{max-width:1100px;margin:auto;padding:18px}
-h1,h2{margin-top:8px}
-h2{color:var(--gold)}
-.muted{color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
-.stat{font-size:28px;color:var(--red);font-weight:bold}
-input,textarea,select{width:100%;padding:12px;margin:6px 0 12px;background:#0c0c0c;color:white;border:1px solid var(--line);border-radius:8px}
-textarea{min-height:90px;resize:vertical}
-.primary{background:var(--red);border:0;color:white;padding:12px 18px;border-radius:9px}
-.item{padding:13px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
-.item strong{color:var(--gold)}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+button:disabled{opacity:.4;cursor:not-allowed}
 .hidden{display:none!important}
-footer{text-align:center;color:var(--muted);padding:24px}
-#toast{position:fixed;bottom:20px;left:15px;right:15px;max-width:420px;margin:auto;background:#222;border:1px solid var(--red);padding:14px;border-radius:10px;display:none;z-index:9}
-@media(max-width:500px){header{align-items:flex-start}nav button{flex:1}main{padding:12px}}
+.muted{color:var(--muted)}
+.gold{color:var(--gold)}
+.eyebrow{font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:bold}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(23px,4vw,34px);margin:10px 0}
+h2{font-size:21px}
+h3{font-size:16px}
+button,.btn{border:1px solid var(--line);border-radius:10px;background:#17202c;color:var(--text);padding:11px 15px}
+button:hover,.btn:hover{border-color:var(--gold)}
+.primary{background:var(--gold);border-color:var(--gold);color:#11151c;font-weight:bold}
+.danger{border-color:#71303a;color:#e6a0a5}
+input,textarea,select{width:100%;background:#090e16;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;margin:6px 0 13px}
+textarea{min-height:90px;resize:vertical}
+label{font-size:13px;color:#c5ccd6}
+.app{min-height:100vh}
+.sidebar{position:fixed;z-index:20;right:0;top:0;bottom:0;width:270px;background:#0b1018;border-left:1px solid var(--line);padding:22px 17px;display:flex;flex-direction:column;transition:transform .25s}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 5px 22px;border-bottom:1px solid var(--line)}
+.seal{width:49px;height:49px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-weight:bold;letter-spacing:2px}
+.brand small,.profile small{display:block;color:var(--muted);font-size:10px;margin-top:5px}
+.profile{display:flex;align-items:center;gap:12px;padding:20px 5px}
+.avatar{width:42px;height:42px;border:1px solid #645638;border-radius:50%;display:grid;place-items:center;background:#171a20;color:var(--gold);font-weight:bold;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.nav{display:grid;gap:5px}
+.nav button{display:flex;align-items:center;gap:12px;text-align:right;background:transparent;border-color:transparent;color:#aab3c0;padding:12px}
+.nav button span{width:22px;text-align:center;color:var(--gold);font-size:18px}
+.nav button.active,.nav button:hover{background:#17202b;border-color:#2b3441;color:white}
+.sidefoot{margin-top:auto;border-top:1px solid var(--line);padding-top:15px;font-size:10px;line-height:2;color:#657183}
+.workspace{margin-right:270px;min-width:0}
+.topbar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:15px;padding:18px 27px;background:rgba(8,12,18,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(15px)}
+.topbar h1{font-size:21px;margin:5px 0}
+.top-actions{display:flex;align-items:center;gap:10px}
+.hamb{display:none;font-size:21px;color:var(--gold)}
+.status{font-size:11px;color:var(--green);border:1px solid #254b3a;padding:7px 10px;border-radius:20px;white-space:nowrap}
+main{max-width:1500px;margin:auto;padding:26px}
+.page{display:none;animation:fade .22s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.hero{position:relative;overflow:hidden;min-height:290px;display:flex;align-items:center;padding:clamp(24px,5vw,54px);border:1px solid #3d3527;border-radius:22px;background:linear-gradient(105deg,rgba(8,11,17,.97),rgba(11,18,28,.87)),radial-gradient(ellipse at 90% 40%,#4b3c25,transparent 50%);margin-bottom:23px}
+.hero:after{content:"SIS";position:absolute;left:4%;bottom:-45px;font-size:clamp(100px,20vw,230px);font-weight:bold;color:rgba(200,170,114,.045);pointer-events:none}
+.hero-content{max-width:720px;position:relative;z-index:1}
+.hero h2{font-size:clamp(26px,4.5vw,42px);line-height:1.7;margin:15px 0}
+.hero em{font-style:normal;color:var(--gold)}
+.hero p{color:#aeb7c5;line-height:2;max-width:620px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.card{background:linear-gradient(145deg,#131c28,#0d131d);border:1px solid var(--line);border-radius:var(--radius);padding:19px;min-width:0}
+.card h2,.card h3{margin-bottom:14px}
+.statnum{font-size:34px;font-weight:bold;color:var(--gold);margin:8px 0}
+.cardtop{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:19px}
+.section-head h2{margin:0}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+.formgrid .wide{grid-column:1/-1}
+.record{padding:15px 0;border-bottom:1px solid var(--line)}
+.record:last-child{border-bottom:0}
+.record p{color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;margin:8px 0}
+.record-title{font-weight:bold;color:var(--gold2);overflow-wrap:anywhere}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.actions button{padding:7px 11px;font-size:12px}
+.tag{display:inline-block;border:1px solid #564a33;border-radius:30px;padding:4px 9px;color:var(--gold);font-size:11px;margin:3px}
+.empty{padding:20px 0;color:var(--muted);font-size:13px}
+.mapbox{min-height:250px;border:1px dashed #61553d;border-radius:14px;background:radial-gradient(ellipse at center,#18212b,#0b1018);display:grid;place-items:center;text-align:center;padding:25px;color:var(--muted)}
+.network-canvas{position:relative;min-height:440px;overflow:hidden;border:1px solid var(--line);border-radius:15px;background-image:radial-gradient(#3a4655 1px,transparent 1px);background-size:24px 24px;background-color:#0b1119;touch-action:pan-y}
+.node{position:absolute;width:88px;min-height:76px;border:1px solid var(--gold);border-radius:14px;background:#141d28;color:white;text-align:center;padding:8px;font-size:11px;cursor:grab;user-select:none;touch-action:none;box-shadow:0 7px 22px #0006}
+.node .avatar{margin:0 auto 5px;width:32px;height:32px;font-size:10px}
+.node:active{cursor:grabbing}
+.toast{position:fixed;z-index:99;bottom:20px;left:20px;right:20px;max-width:380px;margin:auto;background:#17202b;border:1px solid var(--gold);border-radius:12px;padding:14px;display:none;box-shadow:0 10px 35px #0009}
+.overlay{display:none;position:fixed;inset:0;z-index:15;background:#0009}
+.overlay.open{display:block}
+footer{text-align:center;padding:25px;color:#657183;font-size:11px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{transform:translateX(100%)}.sidebar.open{transform:translateX(0)}.workspace{margin-right:0}.hamb{display:block}.topbar{padding:15px 18px}main{padding:18px}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.formgrid .wide{grid-column:auto}.topbar{padding:13px}.topbar h1{font-size:17px}main{padding:12px}.hero{min-height:310px;padding:23px}.hero h2{font-size:26px}.status{display:none}.card{padding:15px}.network-canvas{min-height:400px}}
 </style>
 </head>
 <body>
-<header>
-<div class="logo">SIS <span>— NIGHT CITY</span></div>
-<div class="muted">نظام المعلومات والشبكات</div>
-</header>
-<nav id="nav" class="hidden">
-<button onclick="show('home')">الرئيسية</button>
-<button onclick="show('people')">الأشخاص</button>
-<button onclick="show('files')">الملفات</button>
-<button onclick="show('tasks')">المهام</button>
-<button onclick="show('settings')">الإعدادات</button>
-<button onclick="logout()">خروج</button>
-</nav>
-<main>
-<section id="login" class="card">
-<h1>SIS ACCESS</h1>
-<p class="muted">تسجيل الدخول إلى NIGHT CITY</p>
-<label>اسم المستخدم</label>
-<input id="username" placeholder="أدخل اسم المستخدم" autocomplete="username">
-<label>كلمة المرور</label>
-<input id="password" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password">
-<button class="primary" onclick="login()">دخول النظام</button>
-<p class="muted">نسخة تجريبية محلية وليست نظامًا آمنًا حقيقيًا.</p>
-</section>
-<section id="app" class="hidden">
-<div id="content"></div>
-</section>
-</main>
-<div id="toast"></div>
-<footer>SIS — NIGHT CITY © 2026</footer>
-<script>
-const $=id=>document.getElementById(id);
-const read=()=>{try{return JSON.parse(localStorage.getItem('sisDB'))||{people:[],files:[],tasks:[]}}catch{return {people:[],files:[],tasks:[]}}};
-let db=read(),page='home';
-function save(){localStorage.setItem('sisDB',JSON.stringify(db))}
-function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2500)}
-function login(){if(!$('username').value.trim()||!$('password').value){toast('أدخل بيانات الدخول');return}$('login').classList.add('hidden');$('app').classList.remove('hidden');$('nav').classList.remove('hidden');show('home')}
-function logout(){$('app').classList.add('hidden');$('nav').classList.add('hidden');$('login').classList.remove('hidden');$('password').value=''}
-function show(p){page=p;render()}
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function form(title,fields,fn){return `<div class="card"><h2>${title}</h2><form onsubmit="${fn}(event)">${fields}<button class="primary">حفظ البيانات</button></form></div>`}
-function field(label,id,placeholder){return `<label>${label}</label><input id="${id}" required placeholder="${placeholder}">`}
-function list(type){return db[type].map((x,i)=>`<div class="item"><strong>${esc(x.name)}</strong><p>${esc(x.info||'لا توجد تفاصيل')}</p><div class="actions"><button class="btn" onclick="del('${type}',${i})">حذف</button></div></div>`).join('')||'<p class="muted">لا توجد سجلات حتى الآن.</p>'}
-function del(type,i){if(confirm('هل تريد حذف هذا السجل؟')){db[type].splice(i,1);save();render();toast('تم الحذف')}}
-function add(type,name,info){db[type].unshift({name,info,date:new Date().toLocaleDateString('ar')});save();render();toast('تم حفظ السجل')}
-function submitItem(e,type){e.preventDefault();let name=e.target.name.value.trim(),info=e.target.info.value.trim();if(name)add(type,name,info)}
-function render(){
-let c='';
-if(page==='home')c=`<h1>مركز العمليات</h1><p class="muted">مرحبًا بك في SIS — NIGHT CITY</p><div class="grid">${[['الأشخاص','people'],['الملفات','files'],['المهام','tasks']].map(([n,k])=>`<div class="card"><h2>${n}</h2><div class="stat">${db[k].length}</div><button class="btn" onclick="show('${k}')">فتح القسم</button></div>`).join('')}</div><div class="card"><h2>حالة النظام</h2><p>واجهة النظام تعمل محليًا على هذا المتصفح.</p><button class="btn" onclick="backup()">تصدير نسخة احتياطية</button></div>`;
-if(page==='people')c=`<h1>إدارة الأشخاص</h1>${form('إضافة شخص',field('الاسم','name','الاسم أو المعرف')+`<label>المعلومات</label><textarea id="info" placeholder="أضف التفاصيل"></textarea>`,'addPerson')}<div class="card"><h2>السجلات</h2>${list('people')}</div>`;
-if(page==='files')c=`<h1>الملفات والتقارير</h1>${form('إضافة ملف',field('العنوان','name','عنوان الملف')+`<label>التفاصيل</label><textarea id="info" placeholder="ملخص التقرير"></textarea>`,'addFile')}<div class="card"><h2>الأرشيف</h2>${list('files')}</div>`;
-if(page==='tasks')c=`<h1>إدارة المهام</h1>${form('مهمة جديدة',field('اسم المهمة','name','عنوان المهمة')+`<label>الوصف</label><textarea id="info" placeholder="تفاصيل المهمة"></textarea>`,'addTask')}<div class="card"><h2>المهام المسجلة</h2>${list('tasks')}</div>`;
-if(page==='settings')c=`<h1>الإعدادات</h1><div class="card"><h2>النسخ الاحتياطي</h2><p>احفظ بياناتك أو استعد نسخة JSON سابقة.</p><button class="btn" onclick="backup()">تصدير البيانات</button><input type="file" accept=".json,application/json" onchange="restore(event)"><button class="btn" onclick="if(confirm('حذف جميع السجلات؟')){db={people:[],files:[],tasks:[]};save();render()}">مسح السجلات</button></div>`;
-$('content').innerHTML=c;
-}
-function addPerson(e){submitItem(e,'people')}
-function addFile(e){submitItem(e,'files')}
-function addTask(e){submitItem(e,'tasks')}
-function backup(){let a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));a.href=u;a.download='SIS-NIGHT-CITY-backup.json';a.click();URL.revokeObjectURL(u);toast('تم تجهيز النسخة')}
-function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d||!Array.isArray(d.people)||!Array.isArray(d.files)||!Array.isArray(d.tasks))throw Error();if(confirm('استبدال السجلات الحالية بالنسخة؟')){db=d;save();render();toast('تم الاستيراد')}}catch{toast('ملف النسخة غير صالح')}};r.readAsText(f)}
-</script>
-</body>
-</html>
-</head>
-<body>
-<div class="layout">
-<aside class="side" id="sidebar">
+<div class="app">
+<div class="overlay" id="overlay" onclick="menu(false)"></div>
+<aside class="sidebar" id="sidebar">
   <div class="brand">
     <div class="seal">SIS</div>
-    <div><b>SIS — NIGHT CITY</b><small>INTELLIGENCE NETWORK</small></div>
+    <div><b>SIS — NIGHT CITY</b><small>BRITISH INTELLIGENCE</small></div>
   </div>
   <div class="profile">
-    <div class="avatar">NC</div>
-    <div><b id="sideName">مدير النظام</b><small id="sideRank">مدير الوكالة</small></div>
+    <div class="avatar" id="sideAvatar">SIS</div>
+    <div><b id="sideName">مدير الوكالة</b><small id="sideRank">الإدارة</small></div>
   </div>
   <nav class="nav" id="navigation">
     <button class="active" data-page="dashboard"><span>⌂</span>الرئيسية</button>
-    <button data-page="network"><span>◎</span>شبكة الأشخاص</button>
-    <button data-page="members"><span>♙</span>الأعضاء</button>
-    <button data-page="headquarters"><span>⌖</span>المقرات</button>
-    <button data-page="missions"><span>▣</span>المهام والتكليفات</button>
-    <button data-page="store"><span>◇</span>المتجر والمكافآت</button>
-    <button data-page="assistant"><span>✧</span>مساعد SIS</button>
+    <button data-page="profile"><span>♙</span>ملف المستخدم</button>
+    <button data-page="map"><span>⌖</span>الخريطة</button>
+    <button data-page="hq"><span>▤</span>مقرات الوكالة</button>
+    <button data-page="members"><span>♧</span>الأعضاء والرتب</button>
+    <button data-page="missions"><span>▣</span>المهام والمكافآت</button>
+    <button data-page="network"><span>◎</span>NETWORK</button>
+    <button data-page="store"><span>◇</span>المتجر</button>
+    <button data-page="ai"><span>✧</span>SIS AI</button>
     <button data-page="settings"><span>⚙</span>الإعدادات</button>
   </nav>
-  <div class="sidefoot">SIS — NIGHT CITY<br>نظام تجريبي محلي<br>VERSION 1.0.0</div>
+  <div class="sidefoot">SIS — NIGHT CITY<br>LOCAL PROTOTYPE<br>VERSION 2.0</div>
 </aside>
 
-<main class="main">
-  <header class="top">
-    <div>
-      <div class="eyebrow">SECURE INTELLIGENCE SYSTEM</div>
-      <h1 id="pageTitle">مركز العمليات الرئيسي</h1>
-      <div class="muted">إدارة الشبكة والعمليات والمعلومات</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:9px">
-      <span class="status"><i class="dot"></i>النظام جاهز</span>
-      <button class="hamb" id="menuToggle">☰</button>
-    </div>
-  </header>
+<div class="workspace">
+<header class="topbar">
+  <div><div class="eyebrow">SECURE INTELLIGENCE SYSTEM</div><h1 id="pageTitle">مركز العمليات الرئيسي</h1><div class="muted" style="font-size:12px">إدارة المعلومات والعمليات</div></div>
+  <div class="top-actions"><span class="status">● النظام جاهز</span><button class="hamb" onclick="menu()">☰</button></div>
+</header>
 
-  <section class="page active" id="page-dashboard">
-    <div class="hero">
-      <div class="hero-content">
-        <div class="eyebrow">WELCOME TO SIS</div>
-        <h2>السلام عليكم<br>مرحبًا بك في <em>الوكالة الاستخباراتية البريطانية</em></h2>
-        <p>مركز إدارة المعلومات والأشخاص والمهام. نظّم شبكتك، تابع التكليفات، وأدر ملفات الوكالة من واجهة واحدة.</p>
-        <button class="btn" data-goto="network">فتح شبكة المعلومات ←</button>
-      </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat"><label>أعضاء الشبكة <i>♙</i></label><strong id="statMembers">3</strong><small>إجمالي الملفات المسجلة</small></div>
-      <div class="stat"><label>المقرات <i>⌖</i></label><strong id="statHQ">3</strong><small>المواقع المسجلة</small></div>
-      <div class="stat"><label>المهام النشطة <i>▣</i></label><strong id="statMissions">2</strong><small>تكليفات قيد المتابعة</small></div>
-      <div class="stat"><label>رصيد المكافآت <i>◇</i></label><strong id="statBalance">500</strong><small>رصيد تجريبي</small></div>
-    </div>
-
-    <div class="columns">
-      <section class="panel">
-        <div class="panel-head"><h3>خريطة العمليات</h3><small>عرض تجريبي</small></div>
-        <div class="map">
-          <div class="map-tag">مركز القيادة<small>HQ • NIGHT CITY</small></div>
-          <div class="pin"></div>
-          <div class="map-note">◉ المواقع المسجلة في النظام</div>
-        </div>
-        <div class="note">هذه خلفية مرئية توضيحية وليست خريطة حقيقية أو نظام تتبع مباشر.</div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head"><h3>المقرات الرئيسية</h3><button class="tiny" data-goto="headquarters">عرض الكل</button></div>
-        <div class="hq-grid" id="dashboardHQ"></div>
-      </section>
-    </div>
-
-    <div class="lower">
-      <section class="panel">
-        <div class="panel-head"><h3>آخر الأعضاء</h3><button class="tiny" data-goto="members">عرض الأعضاء</button></div>
-        <div class="rows" id="recentMembers"></div>
-      </section>
-      <section class="panel">
-        <div class="panel-head"><h3>المهام الحالية</h3><button class="tiny" data-goto="missions">عرض المهام</button></div>
-        <div class="rows" id="recentMissions"></div>
-      </section>
-      <section class="panel">
-        <div class="panel-head"><h3>سجل النظام</h3></div>
-        <div class="rows" id="activityLog"></div>
-      </section>
-    </div>
-  </section>
-
-  <section class="page" id="page-network">
-    <div class="intro">
-      <div><h2>شبكة الأشخاص والأنظمة</h2><p>أنشئ ملفات للأشخاص واربطهم داخل شبكة معلوماتك.</p></div>
-      <div class="toolbar">
-        <button class="btn" id="addNode">＋ إضافة شخص</button>
-        <button class="btn alt" id="resetNetwork">إعادة ترتيب الشبكة</button>
-      </div>
-    </div>
-    <section class="panel">
-      <div class="panel-head"><h3>المخطط الشبكي</h3><small>يمكن سحب العقد باللمس</small></div>
-      <div class="network-board" id="networkBoard">
-        <svg id="networkLines" aria-hidden="true"></svg>
-        <div id="networkNodes"></div>
-      </div>
-      <div class="note">اسحب بطاقة الشخص لتغيير مكانها. البيانات تجريبية ومحفوظة على هذا المتصفح فقط.</div>
-    </section>
-    <section class="panel" style="margin-top:14px">
-      <div class="panel-head"><h3>ملفات الشبكة</h3><input id="networkSearch" class="field search" placeholder="ابحث عن شخص..."></div>
-      <div class="tablewrap"><table><thead><tr><th>الاسم</th><th>المعرف</th><th>التصنيف</th><th>الإجراءات</th></tr></thead><tbody id="networkTable"></tbody></table></div>
-    </section>
-  </section>
-
-  <section class="page" id="page-members">
-    <div class="intro">
-      <div><h2>إدارة الأعضاء</h2><p>إضافة الملفات وتعديل البيانات والرتب.</p></div>
-      <button class="btn" id="addMember">＋ إضافة عضو</button>
-    </div>
-    <section class="panel">
-      <div class="panel-head"><h3>سجل الأعضاء</h3><input id="memberSearch" class="field search" placeholder="ابحث بالاسم أو الرتبة..."></div>
-      <div class="tablewrap"><table><thead><tr><th>الاسم</th><th>المعرف</th><th>الرتبة</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="membersTable"></tbody></table></div>
-    </section>
-  </section>
-
-  <section class="page" id="page-headquarters">
-    <div class="intro">
-      <div><h2>المقرات والمواقع</h2><p>إدارة مواقع الوكالة وإضافة صور توضيحية.</p></div>
-      <button class="btn" id="addHQ">＋ إضافة مقر</button>
-    </div>
-    <section class="panel">
-      <div class="panel-head"><h3>المقرات المسجلة</h3><small>يمكنك تعديلها وحذفها</small></div>
-      <div class="hq-grid" id="allHQ"></div>
-    </section>
-  </section>
-
-  <section class="page" id="page-missions">
-    <div class="intro">
-      <div><h2>المهام والتكليفات</h2><p>أنشئ المهام وحدد المسؤول عنها وحالة التنفيذ.</p></div>
-      <button class="btn" id="addMission">＋ مهمة جديدة</button>
-    </div>
-    <section class="panel">
-      <div class="panel-head"><h3>سجل المهام</h3><select id="missionFilter" class="field"><option value="all">كل المهام</option><option value="نشطة">نشطة</option><option value="مكتملة">مكتملة</option></select></div>
-      <div class="tablewrap"><table><thead><tr><th>المهمة</th><th>المسؤول</th><th>المكافأة</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="missionsTable"></tbody></table></div>
-    </section>
-  </section>
-
-  <section class="page" id="page-store">
-    <div class="intro">
-      <div><h2>المتجر والمكافآت</h2><p>متجر تجريبي باستخدام الرصيد المحلي.</p></div>
-      <div class="muted">رصيدك: <b id="storeBalance">500</b> نقطة</div>
-    </div>
-    <section class="panel">
-      <div class="panel-head"><h3>العناصر المتاحة</h3><small>عمليات الشراء تجريبية</small></div>
-      <div class="storegrid" id="storeItems"></div>
-    </section>
-  </section>
-
-  <section class="page" id="page-assistant">
-    <div class="intro">
-      <div><h2>مساعد SIS</h2><p>مساعد محلي تجريبي للبحث في بيانات هذا التطبيق.</p></div>
-    </div>
-    <section class="panel chat">
-      <div class="messages" id="chatMessages">
-        <div class="bubble">مرحبًا بك. أستطيع مساعدتك في استعراض بيانات الأعضاء والمهام والمقرات المحفوظة داخل هذا النموذج.</div>
-      </div>
-      <form class="chatform" id="chatForm">
-        <input class="field" id="chatInput" placeholder="اكتب سؤالك هنا..." autocomplete="off" required>
-        <button class="btn" type="submit">إرسال</button>
-      </form>
-      <div class="note">هذه نسخة أولية؛ لا يوجد اتصال بخدمة ذكاء اصطناعي خارجية في هذا الإصدار.</div>
-    </section>
-  </section>
-
-  <section class="page" id="page-settings">
-    <div class="intro"><div><h2>الإعدادات</h2><p>تخصيص اسم الملف الشخصي وإدارة نسخة البيانات.</p></div></div>
-    <section class="panel">
-      <div class="panel-head"><h3>الملف الشخصي</h3></div>
-      <div style="padding:16px">
-        <form id="settingsForm" class="formgrid">
-          <label>اسم المدير<input class="field" id="settingName" required maxlength="60"></label>
-          <label>الرتبة<input class="field" id="settingRank" required maxlength="60"></label>
-          <div class="toolbar">
-            <button class="btn" type="submit">حفظ الإعدادات</button>
-            <button class="btn alt" type="button" id="exportData">تصدير نسخة البيانات</button>
-            <button class="btn alt" type="button" id="importButton">استيراد نسخة بيانات</button>
-            <input type="file" id="importFile" accept=".json,application/json" hidden>
-          </div>
-        </form>
-      </div>
-      <div class="note">التخزين محلي في المتصفح. تصدير البيانات يسمح لك بحفظ نسخة احتياطية.</div>
-    </section>
-    <section class="panel" style="margin-top:14px">
-      <div class="panel-head"><h3>معلومات النظام</h3></div>
-      <div class="rows">
-        <div class="rowitem"><div class="rowicon">S</div><div><b>SIS — NIGHT CITY</b><small>نسخة واجهة أولية 1.0.0</small></div></div>
-        <div class="rowitem"><div class="rowicon">!</div><div><b>تنبيه بخصوص البيانات</b><small>لا تستخدم هذا النموذج لحفظ معلومات شخصية حساسة أو سرية.</small></div></div>
-      </div>
-    </section>
-  </section>
-
-  <footer class="muted" style="text-align:center;padding:24px 5px;font-size:10px">SIS — NIGHT CITY © 2026 • نموذج تجريبي</footer>
-</main>
-</div>
-
-<div class="modalbg" id="modalBg">
-  <div class="modal">
-    <h3 id="modalTitle">إضافة عنصر</h3>
-    <form id="modalForm" class="formgrid"></form>
-    <div class="modalactions">
-      <button class="btn" id="modalSave" type="button">حفظ</button>
-      <button class="btn alt" id="modalCancel" type="button">إلغاء</button>
+<main>
+<section class="page active" id="page-dashboard">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">WELCOME TO SIS</div>
+      <h2>السلام عليكم<br>مرحبًا بك في <em>الوكالة الاستخباراتية البريطانية</em></h2>
+      <p>مركز إدارة المعلومات والأشخاص والمهام. لكل معلومة قيمتها، ولكل مهمة مسؤول، ولكل صلاحية حدود.</p>
+      <button class="primary" onclick="go('network')">دخول شبكة المعلومات ←</button>
     </div>
   </div>
-</div>
-<script>
-const $ = id => document.getElementById(id);
-
-const defaults = {
-  profile:{name:"مدير النظام",rank:"مدير الوكالة"},
-  balance:500,
-  members:[
-    {id:1,name:"NIGHT CITY",rank:"مدير الوكالة",status:"نشط"},
-    {id:2,name:"Agent Alpha",rank:"عميل استخبارات",status:"نشط"},
-    {id:3,name:"Agent Bravo",rank:"محلل معلومات",status:"متاح"}
-  ],
-  hq:[
-    {id:1,name:"مركز القيادة",location:"NIGHT CITY",image:"https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=600&q=80"},
-    {id:2,name:"مركز المعلومات",location:"القسم التحليلي",image:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=80"},
-    {id:3,name:"المقر الإداري",location:"الإدارة المركزية",image:"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80"}
-  ],
-  missions:[
-    {id:1,name:"مراجعة ملفات الشبكة",owner:"Agent Alpha",reward:100,status:"نشطة"},
-    {id:2,name:"تحديث سجل المقرات",owner:"Agent Bravo",reward:150,status:"نشطة"}
-  ],
-  network:[
-    {id:1,name:"NIGHT CITY",type:"إدارة",x:50,y:27},
-    {id:2,name:"Agent Alpha",type:"عضو",x:28,y:62},
-    {id:3,name:"Agent Bravo",type:"محلل",x:72,y:62}
-  ],
-  activity:["تم تشغيل النظام","تم تحميل بيانات النموذج"]
-};
-
-let state;
-try {
-  const saved = localStorage.getItem("sisNightCityData");
-  state = saved ? {...defaults,...JSON.parse(saved)} : structuredClone(defaults);
-} catch(e) {
-  state = JSON.parse(JSON.stringify(defaults));
-}
-
-let currentPage = "dashboard";
-let modalAction = null;
-
-function save(){
-  localStorage.setItem("sisNightCityData",JSON.stringify(state));
-  renderAll();
-}
-
-function toast(message){
-  const el=$("toast");
-  el.textContent=message;
-  el.classList.add("show");
-  clearTimeout(toast.timer);
-  toast.timer=setTimeout(()=>el.classList.remove("show"),2600);
-}
-
-function log(message){
-  state.activity.unshift(message);
-  state.activity=state.activity.slice(0,12);
-}
-
-function esc(value){
-  return String(value??"").replace(/[&<>"']/g,c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
-}
-
-function go(page){
-  currentPage=page;
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  $("page-"+page)?.classList.add("active");
-  document.querySelectorAll("#navigation button").forEach(b=>{
-    b.classList.toggle("active",b.dataset.page===page);
-  });
-  const titles={
-    dashboard:"مركز العمليات الرئيسي",
-    network:"شبكة الأشخاص والأنظمة",
-    members:"إدارة الأعضاء",
-    headquarters:"المقرات والمواقع",
-    missions:"المهام والتكليفات",
-    store:"المتجر والمكافآت",
-    assistant:"مساعد SIS",
-    settings:"الإعدادات"
-  };
-  $("pageTitle").textContent=titles[page]||"SIS";
-  $("sidebar").classList.remove("open");
-  if(page==="network") drawNetwork();
-}
-
-$("navigation").addEventListener("click",e=>{
-  const b=e.target.closest("[data-page]");
-  if(b) go(b.dataset.page);
-});
-
-document.addEventListener("click",e=>{
-  const b=e.target.closest("[data-goto]");
-  if(b) go(b.dataset.goto);
-});
-
-$("menuToggle").addEventListener("click",()=>$("sidebar").classList.toggle("open"));
-
-function renderProfile(){
-  $("sideName").textContent=state.profile.name;
-  $("sideRank").textContent=state.profile.rank;
-  $("settingName").value=state.profile.name;
-  $("settingRank").value=state.profile.rank;
-}
-
-function renderStats(){
-  $("statMembers").textContent=state.members.length;
-  $("statHQ").textContent=state.hq.length;
-  $("statMissions").textContent=state.missions.filter(m=>m.status==="نشطة").length;
-  $("statBalance").textContent=state.balance;
-  $("storeBalance").textContent=state.balance;
-}
-
-function renderHQ(){
-  const card=h=>`
-    <article class="hq">
-      <img src="${esc(h.image)}" alt="${esc(h.name)}" loading="lazy">
-      <div class="hq-info">
-        <b>${esc(h.name)}</b>
-        <small>${esc(h.location)}</small>
-        <div class="hq-actions">
-          <button class="tiny" onclick="editHQ(${h.id})">تعديل</button>
-          <button class="tiny del" onclick="deleteHQ(${h.id})">حذف</button>
-        </div>
-      </div>
-    </article>`;
-  $("allHQ").innerHTML=state.hq.map(card).join("")||'<div class="empty">لا توجد مقرات مسجلة</div>';
-  $("dashboardHQ").innerHTML=state.hq.slice(0,4).map(card).join("")||'<div class="empty">أضف مقرًا جديدًا</div>';
-}
-
-function renderMembers(){
-  const query=($("memberSearch")?.value||"").toLowerCase();
-  const filtered=state.members.filter(m=>
-    (m.name+" "+m.rank+" "+m.id).toLowerCase().includes(query)
-  );
-  $("membersTable").innerHTML=filtered.map(m=>`
-    <tr>
-      <td>${esc(m.name)}<small>عضو مسجل</small></td>
-      <td>NC-${m.id}</td>
-      <td>${esc(m.rank)}</td>
-      <td>${esc(m.status)}</td>
-      <td>
-        <button class="tiny" onclick="promote(${m.id})">ترقية</button>
-        <button class="tiny" onclick="editMember(${m.id})">تعديل</button>
-        <button class="tiny del" onclick="deleteMember(${m.id})">حذف</button>
-      </td>
-    </tr>`).join("")||'<tr><td colspan="5" class="empty">لا توجد نتائج</td></tr>';
-
-  $("recentMembers").innerHTML=state.members.slice(-3).reverse().map(m=>`
-    <div class="rowitem">
-      <div class="rowicon">♙</div>
-      <div><b>${esc(m.name)}</b><small>${esc(m.rank)}</small></div>
-    </div>`).join("")||'<div class="empty">لا يوجد أعضاء</div>';
-
-  $("networkTable").innerHTML=state.network.filter(n=>
-    (n.name+" "+n.type).toLowerCase().includes(($("networkSearch")?.value||"").toLowerCase())
-  ).map(n=>`
-    <tr>
-      <td>${esc(n.name)}</td>
-      <td>NET-${n.id}</td>
-      <td>${esc(n.type)}</td>
-      <td>
-        <button class="tiny" onclick="editNode(${n.id})">تعديل</button>
-        <button class="tiny del" onclick="deleteNode(${n.id})">حذف</button>
-      </td>
-    </tr>`).join("")||'<tr><td colspan="4" class="empty">لا توجد ملفات</td></tr>';
-}
-
-function renderMissions(){
-  const filter=$("missionFilter")?.value||"all";
-  const list=state.missions.filter(m=>filter==="all"||m.status===filter);
-  $("missionsTable").innerHTML=list.map(m=>`
-    <tr>
-      <td>${esc(m.name)}</td>
-      <td>${esc(m.owner)}</td>
-      <td>${m.reward} نقطة</td>
-      <td>${esc(m.status)}</td>
-      <td>
-        <button class="tiny" onclick="toggleMission(${m.id})">تغيير الحالة</button>
-        <button class="tiny del" onclick="deleteMission(${m.id})">حذف</button>
-      </td>
-    </tr>`).join("")||'<tr><td colspan="5" class="empty">لا توجد مهام</td></tr>';
-
-  $("recentMissions").innerHTML=state.missions.slice(0,3).map(m=>`
-    <div class="rowitem">
-      <div class="rowicon">▣</div>
-      <div><b>${esc(m.name)}</b><small>${esc(m.status)} • ${esc(m.owner)}</small></div>
-    </div>`).join("")||'<div class="empty">لا توجد مهام</div>';
-}
-
-function renderActivity(){
-  $("activityLog").innerHTML=state.activity.slice(0,5).map(a=>`
-    <div class="rowitem">
-      <div class="rowicon">↳</div>
-      <div><b>${esc(a)}</b><small>سجل محلي</small></div>
-    </div>`).join("");
-}
-
-const products=[
-  {id:1,name:"مكافأة ميدانية",desc:"عنصر تجريبي داخل النظام.",price:100,icon:"◇"},
-  {id:2,name:"شارة خاصة",desc:"شارة شكلية لملف العضو.",price:150,icon:"✧"},
-  {id:3,name:"رتبة شرفية",desc:"ترقية تجريبية غير رسمية.",price:250,icon:"♜"},
-  {id:4,name:"ملف إضافي",desc:"عنصر افتراضي للمجموعة.",price:80,icon:"▤"},
-  {id:5,name:"شارة ذهبية",desc:"شارة بلون ذهبي للعرض.",price:200,icon:"✦"},
-  {id:6,name:"حزمة مميزة",desc:"حزمة تجريبية افتراضية.",price:300,icon:"⬡"}
-];
-
-function renderStore(){
-  $("storeItems").innerHTML=products.map(p=>`
-    <article class="product">
-      <div class="art">${p.icon}</div>
-      <b>${esc(p.name)}</b>
-      <p>${esc(p.desc)}</p>
-      <div class="price">${p.price} نقطة</div>
-      <button class="btn" onclick="buyProduct(${p.id})">شراء تجريبي</button>
-    </article>`).join("");
-}
-
-function renderAll(){
-  renderProfile();
-  renderStats();
-  renderHQ();
-  renderMembers();
-  renderMissions();
-  renderActivity();
-  renderStore();
-}
-
-function nextId(list){
-  return Math.max(0,...list.map(x=>Number(x.id)||0))+1;
-}
-
-function openModal(title,fields,callback){
-  modalAction=callback;
-  $("modalTitle").textContent=title;
-  $("modalForm").innerHTML=fields.map(f=>`
-    <label>${esc(f.label)}
-      <input class="field" name="${esc(f.name)}"
-        value="${esc(f.value||"")}"
-        ${f.required===false?"":"required"}
-        ${f.type==="url"?'type="url"':'type="text"'}
-        maxlength="240">
-    </label>`).join("");
-  $("modalBg").classList.add("open");
-}
-
-function closeModal(){
-  $("modalBg").classList.remove("open");
-  modalAction=null;
-}
-
-$("modalCancel").addEventListener("click",closeModal);
-$("modalBg").addEventListener("click",e=>{
-  if(e.target===$("modalBg")) closeModal();
-});
-$("modalSave").addEventListener("click",()=>{
-  const form=$("modalForm");
-  if(!form.reportValidity()) return;
-  const data=Object.fromEntries(new FormData(form).entries());
-  if(modalAction) modalAction(data);
-  closeModal();
-});
-
-$("addMember").addEventListener("click",()=>openModal("إضافة عضو",[
-  {name:"name",label:"اسم العضو"},
-  {name:"rank",label:"الرتبة"},
-  {name:"status",label:"الحالة",value:"نشط"}
-],d=>{
-  state.members.push({id:nextId(state.members),name:d.name,rank:d.rank,status:d.status});
-  state.network.push({id:nextId(state.network),name:d.name,type:"عضو",x:30+Math.random()*40,y:35+Math.random()*45});
-  log("إضافة عضو: "+d.name);save();toast("تمت إضافة العضو");
-}));
-
-function editMember(id){
-  const m=state.members.find(x=>x.id===id);if(!m)return;
-  openModal("تعديل بيانات العضو",[
-    {name:"name",label:"الاسم",value:m.name},
-    {name:"rank",label:"الرتبة",value:m.rank},
-    {name:"status",label:"الحالة",value:m.status}
-  ],d=>{
-    Object.assign(m,d);
-    log("تعديل عضو: "+m.name);save();toast("تم تحديث العضو");
-  });
-}
-
-function promote(id){
-  const m=state.members.find(x=>x.id===id);if(!m)return;
-  m.rank=m.rank+" ★";
-  log("تعديل رتبة: "+m.name);save();toast("تم تحديث الرتبة تجريبيًا");
-}
-
-function deleteMember(id){
-  if(!confirm("هل تريد حذف هذا العضو؟"))return;
-  state.members=s
+  <div class="grid">
+    <div class="card"><div class="muted">الأعضاء المسجلون</div><div class="statnum" id="countMembers">0</div><button onclick="go('members')">إدارة الأعضاء</button></div>
+    <div class="card"><div class="muted">مقرات الوكالة</div><div class="statnum" id="countHQ">0</div><button onclick="go('hq')">عرض المقرات</button></div>
+    <div class="card"><div class="muted">المهام المسجلة</div><div class="statnum" id="countMissions">0</div><button onclick="go('missions')">مركز المهام</button></div>
+  </div>
+  <div

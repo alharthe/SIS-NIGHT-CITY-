@@ -100,3 +100,507 @@ function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();
 </script>
 </body>
 </html>
+</head>
+<body>
+<div class="layout">
+<aside class="side" id="sidebar">
+  <div class="brand">
+    <div class="seal">SIS</div>
+    <div><b>SIS — NIGHT CITY</b><small>INTELLIGENCE NETWORK</small></div>
+  </div>
+  <div class="profile">
+    <div class="avatar">NC</div>
+    <div><b id="sideName">مدير النظام</b><small id="sideRank">مدير الوكالة</small></div>
+  </div>
+  <nav class="nav" id="navigation">
+    <button class="active" data-page="dashboard"><span>⌂</span>الرئيسية</button>
+    <button data-page="network"><span>◎</span>شبكة الأشخاص</button>
+    <button data-page="members"><span>♙</span>الأعضاء</button>
+    <button data-page="headquarters"><span>⌖</span>المقرات</button>
+    <button data-page="missions"><span>▣</span>المهام والتكليفات</button>
+    <button data-page="store"><span>◇</span>المتجر والمكافآت</button>
+    <button data-page="assistant"><span>✧</span>مساعد SIS</button>
+    <button data-page="settings"><span>⚙</span>الإعدادات</button>
+  </nav>
+  <div class="sidefoot">SIS — NIGHT CITY<br>نظام تجريبي محلي<br>VERSION 1.0.0</div>
+</aside>
+
+<main class="main">
+  <header class="top">
+    <div>
+      <div class="eyebrow">SECURE INTELLIGENCE SYSTEM</div>
+      <h1 id="pageTitle">مركز العمليات الرئيسي</h1>
+      <div class="muted">إدارة الشبكة والعمليات والمعلومات</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:9px">
+      <span class="status"><i class="dot"></i>النظام جاهز</span>
+      <button class="hamb" id="menuToggle">☰</button>
+    </div>
+  </header>
+
+  <section class="page active" id="page-dashboard">
+    <div class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">WELCOME TO SIS</div>
+        <h2>السلام عليكم<br>مرحبًا بك في <em>الوكالة الاستخباراتية البريطانية</em></h2>
+        <p>مركز إدارة المعلومات والأشخاص والمهام. نظّم شبكتك، تابع التكليفات، وأدر ملفات الوكالة من واجهة واحدة.</p>
+        <button class="btn" data-goto="network">فتح شبكة المعلومات ←</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><label>أعضاء الشبكة <i>♙</i></label><strong id="statMembers">3</strong><small>إجمالي الملفات المسجلة</small></div>
+      <div class="stat"><label>المقرات <i>⌖</i></label><strong id="statHQ">3</strong><small>المواقع المسجلة</small></div>
+      <div class="stat"><label>المهام النشطة <i>▣</i></label><strong id="statMissions">2</strong><small>تكليفات قيد المتابعة</small></div>
+      <div class="stat"><label>رصيد المكافآت <i>◇</i></label><strong id="statBalance">500</strong><small>رصيد تجريبي</small></div>
+    </div>
+
+    <div class="columns">
+      <section class="panel">
+        <div class="panel-head"><h3>خريطة العمليات</h3><small>عرض تجريبي</small></div>
+        <div class="map">
+          <div class="map-tag">مركز القيادة<small>HQ • NIGHT CITY</small></div>
+          <div class="pin"></div>
+          <div class="map-note">◉ المواقع المسجلة في النظام</div>
+        </div>
+        <div class="note">هذه خلفية مرئية توضيحية وليست خريطة حقيقية أو نظام تتبع مباشر.</div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h3>المقرات الرئيسية</h3><button class="tiny" data-goto="headquarters">عرض الكل</button></div>
+        <div class="hq-grid" id="dashboardHQ"></div>
+      </section>
+    </div>
+
+    <div class="lower">
+      <section class="panel">
+        <div class="panel-head"><h3>آخر الأعضاء</h3><button class="tiny" data-goto="members">عرض الأعضاء</button></div>
+        <div class="rows" id="recentMembers"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>المهام الحالية</h3><button class="tiny" data-goto="missions">عرض المهام</button></div>
+        <div class="rows" id="recentMissions"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>سجل النظام</h3></div>
+        <div class="rows" id="activityLog"></div>
+      </section>
+    </div>
+  </section>
+
+  <section class="page" id="page-network">
+    <div class="intro">
+      <div><h2>شبكة الأشخاص والأنظمة</h2><p>أنشئ ملفات للأشخاص واربطهم داخل شبكة معلوماتك.</p></div>
+      <div class="toolbar">
+        <button class="btn" id="addNode">＋ إضافة شخص</button>
+        <button class="btn alt" id="resetNetwork">إعادة ترتيب الشبكة</button>
+      </div>
+    </div>
+    <section class="panel">
+      <div class="panel-head"><h3>المخطط الشبكي</h3><small>يمكن سحب العقد باللمس</small></div>
+      <div class="network-board" id="networkBoard">
+        <svg id="networkLines" aria-hidden="true"></svg>
+        <div id="networkNodes"></div>
+      </div>
+      <div class="note">اسحب بطاقة الشخص لتغيير مكانها. البيانات تجريبية ومحفوظة على هذا المتصفح فقط.</div>
+    </section>
+    <section class="panel" style="margin-top:14px">
+      <div class="panel-head"><h3>ملفات الشبكة</h3><input id="networkSearch" class="field search" placeholder="ابحث عن شخص..."></div>
+      <div class="tablewrap"><table><thead><tr><th>الاسم</th><th>المعرف</th><th>التصنيف</th><th>الإجراءات</th></tr></thead><tbody id="networkTable"></tbody></table></div>
+    </section>
+  </section>
+
+  <section class="page" id="page-members">
+    <div class="intro">
+      <div><h2>إدارة الأعضاء</h2><p>إضافة الملفات وتعديل البيانات والرتب.</p></div>
+      <button class="btn" id="addMember">＋ إضافة عضو</button>
+    </div>
+    <section class="panel">
+      <div class="panel-head"><h3>سجل الأعضاء</h3><input id="memberSearch" class="field search" placeholder="ابحث بالاسم أو الرتبة..."></div>
+      <div class="tablewrap"><table><thead><tr><th>الاسم</th><th>المعرف</th><th>الرتبة</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="membersTable"></tbody></table></div>
+    </section>
+  </section>
+
+  <section class="page" id="page-headquarters">
+    <div class="intro">
+      <div><h2>المقرات والمواقع</h2><p>إدارة مواقع الوكالة وإضافة صور توضيحية.</p></div>
+      <button class="btn" id="addHQ">＋ إضافة مقر</button>
+    </div>
+    <section class="panel">
+      <div class="panel-head"><h3>المقرات المسجلة</h3><small>يمكنك تعديلها وحذفها</small></div>
+      <div class="hq-grid" id="allHQ"></div>
+    </section>
+  </section>
+
+  <section class="page" id="page-missions">
+    <div class="intro">
+      <div><h2>المهام والتكليفات</h2><p>أنشئ المهام وحدد المسؤول عنها وحالة التنفيذ.</p></div>
+      <button class="btn" id="addMission">＋ مهمة جديدة</button>
+    </div>
+    <section class="panel">
+      <div class="panel-head"><h3>سجل المهام</h3><select id="missionFilter" class="field"><option value="all">كل المهام</option><option value="نشطة">نشطة</option><option value="مكتملة">مكتملة</option></select></div>
+      <div class="tablewrap"><table><thead><tr><th>المهمة</th><th>المسؤول</th><th>المكافأة</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="missionsTable"></tbody></table></div>
+    </section>
+  </section>
+
+  <section class="page" id="page-store">
+    <div class="intro">
+      <div><h2>المتجر والمكافآت</h2><p>متجر تجريبي باستخدام الرصيد المحلي.</p></div>
+      <div class="muted">رصيدك: <b id="storeBalance">500</b> نقطة</div>
+    </div>
+    <section class="panel">
+      <div class="panel-head"><h3>العناصر المتاحة</h3><small>عمليات الشراء تجريبية</small></div>
+      <div class="storegrid" id="storeItems"></div>
+    </section>
+  </section>
+
+  <section class="page" id="page-assistant">
+    <div class="intro">
+      <div><h2>مساعد SIS</h2><p>مساعد محلي تجريبي للبحث في بيانات هذا التطبيق.</p></div>
+    </div>
+    <section class="panel chat">
+      <div class="messages" id="chatMessages">
+        <div class="bubble">مرحبًا بك. أستطيع مساعدتك في استعراض بيانات الأعضاء والمهام والمقرات المحفوظة داخل هذا النموذج.</div>
+      </div>
+      <form class="chatform" id="chatForm">
+        <input class="field" id="chatInput" placeholder="اكتب سؤالك هنا..." autocomplete="off" required>
+        <button class="btn" type="submit">إرسال</button>
+      </form>
+      <div class="note">هذه نسخة أولية؛ لا يوجد اتصال بخدمة ذكاء اصطناعي خارجية في هذا الإصدار.</div>
+    </section>
+  </section>
+
+  <section class="page" id="page-settings">
+    <div class="intro"><div><h2>الإعدادات</h2><p>تخصيص اسم الملف الشخصي وإدارة نسخة البيانات.</p></div></div>
+    <section class="panel">
+      <div class="panel-head"><h3>الملف الشخصي</h3></div>
+      <div style="padding:16px">
+        <form id="settingsForm" class="formgrid">
+          <label>اسم المدير<input class="field" id="settingName" required maxlength="60"></label>
+          <label>الرتبة<input class="field" id="settingRank" required maxlength="60"></label>
+          <div class="toolbar">
+            <button class="btn" type="submit">حفظ الإعدادات</button>
+            <button class="btn alt" type="button" id="exportData">تصدير نسخة البيانات</button>
+            <button class="btn alt" type="button" id="importButton">استيراد نسخة بيانات</button>
+            <input type="file" id="importFile" accept=".json,application/json" hidden>
+          </div>
+        </form>
+      </div>
+      <div class="note">التخزين محلي في المتصفح. تصدير البيانات يسمح لك بحفظ نسخة احتياطية.</div>
+    </section>
+    <section class="panel" style="margin-top:14px">
+      <div class="panel-head"><h3>معلومات النظام</h3></div>
+      <div class="rows">
+        <div class="rowitem"><div class="rowicon">S</div><div><b>SIS — NIGHT CITY</b><small>نسخة واجهة أولية 1.0.0</small></div></div>
+        <div class="rowitem"><div class="rowicon">!</div><div><b>تنبيه بخصوص البيانات</b><small>لا تستخدم هذا النموذج لحفظ معلومات شخصية حساسة أو سرية.</small></div></div>
+      </div>
+    </section>
+  </section>
+
+  <footer class="muted" style="text-align:center;padding:24px 5px;font-size:10px">SIS — NIGHT CITY © 2026 • نموذج تجريبي</footer>
+</main>
+</div>
+
+<div class="modalbg" id="modalBg">
+  <div class="modal">
+    <h3 id="modalTitle">إضافة عنصر</h3>
+    <form id="modalForm" class="formgrid"></form>
+    <div class="modalactions">
+      <button class="btn" id="modalSave" type="button">حفظ</button>
+      <button class="btn alt" id="modalCancel" type="button">إلغاء</button>
+    </div>
+  </div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+
+const defaults = {
+  profile:{name:"مدير النظام",rank:"مدير الوكالة"},
+  balance:500,
+  members:[
+    {id:1,name:"NIGHT CITY",rank:"مدير الوكالة",status:"نشط"},
+    {id:2,name:"Agent Alpha",rank:"عميل استخبارات",status:"نشط"},
+    {id:3,name:"Agent Bravo",rank:"محلل معلومات",status:"متاح"}
+  ],
+  hq:[
+    {id:1,name:"مركز القيادة",location:"NIGHT CITY",image:"https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=600&q=80"},
+    {id:2,name:"مركز المعلومات",location:"القسم التحليلي",image:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=80"},
+    {id:3,name:"المقر الإداري",location:"الإدارة المركزية",image:"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80"}
+  ],
+  missions:[
+    {id:1,name:"مراجعة ملفات الشبكة",owner:"Agent Alpha",reward:100,status:"نشطة"},
+    {id:2,name:"تحديث سجل المقرات",owner:"Agent Bravo",reward:150,status:"نشطة"}
+  ],
+  network:[
+    {id:1,name:"NIGHT CITY",type:"إدارة",x:50,y:27},
+    {id:2,name:"Agent Alpha",type:"عضو",x:28,y:62},
+    {id:3,name:"Agent Bravo",type:"محلل",x:72,y:62}
+  ],
+  activity:["تم تشغيل النظام","تم تحميل بيانات النموذج"]
+};
+
+let state;
+try {
+  const saved = localStorage.getItem("sisNightCityData");
+  state = saved ? {...defaults,...JSON.parse(saved)} : structuredClone(defaults);
+} catch(e) {
+  state = JSON.parse(JSON.stringify(defaults));
+}
+
+let currentPage = "dashboard";
+let modalAction = null;
+
+function save(){
+  localStorage.setItem("sisNightCityData",JSON.stringify(state));
+  renderAll();
+}
+
+function toast(message){
+  const el=$("toast");
+  el.textContent=message;
+  el.classList.add("show");
+  clearTimeout(toast.timer);
+  toast.timer=setTimeout(()=>el.classList.remove("show"),2600);
+}
+
+function log(message){
+  state.activity.unshift(message);
+  state.activity=state.activity.slice(0,12);
+}
+
+function esc(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function go(page){
+  currentPage=page;
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  $("page-"+page)?.classList.add("active");
+  document.querySelectorAll("#navigation button").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===page);
+  });
+  const titles={
+    dashboard:"مركز العمليات الرئيسي",
+    network:"شبكة الأشخاص والأنظمة",
+    members:"إدارة الأعضاء",
+    headquarters:"المقرات والمواقع",
+    missions:"المهام والتكليفات",
+    store:"المتجر والمكافآت",
+    assistant:"مساعد SIS",
+    settings:"الإعدادات"
+  };
+  $("pageTitle").textContent=titles[page]||"SIS";
+  $("sidebar").classList.remove("open");
+  if(page==="network") drawNetwork();
+}
+
+$("navigation").addEventListener("click",e=>{
+  const b=e.target.closest("[data-page]");
+  if(b) go(b.dataset.page);
+});
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-goto]");
+  if(b) go(b.dataset.goto);
+});
+
+$("menuToggle").addEventListener("click",()=>$("sidebar").classList.toggle("open"));
+
+function renderProfile(){
+  $("sideName").textContent=state.profile.name;
+  $("sideRank").textContent=state.profile.rank;
+  $("settingName").value=state.profile.name;
+  $("settingRank").value=state.profile.rank;
+}
+
+function renderStats(){
+  $("statMembers").textContent=state.members.length;
+  $("statHQ").textContent=state.hq.length;
+  $("statMissions").textContent=state.missions.filter(m=>m.status==="نشطة").length;
+  $("statBalance").textContent=state.balance;
+  $("storeBalance").textContent=state.balance;
+}
+
+function renderHQ(){
+  const card=h=>`
+    <article class="hq">
+      <img src="${esc(h.image)}" alt="${esc(h.name)}" loading="lazy">
+      <div class="hq-info">
+        <b>${esc(h.name)}</b>
+        <small>${esc(h.location)}</small>
+        <div class="hq-actions">
+          <button class="tiny" onclick="editHQ(${h.id})">تعديل</button>
+          <button class="tiny del" onclick="deleteHQ(${h.id})">حذف</button>
+        </div>
+      </div>
+    </article>`;
+  $("allHQ").innerHTML=state.hq.map(card).join("")||'<div class="empty">لا توجد مقرات مسجلة</div>';
+  $("dashboardHQ").innerHTML=state.hq.slice(0,4).map(card).join("")||'<div class="empty">أضف مقرًا جديدًا</div>';
+}
+
+function renderMembers(){
+  const query=($("memberSearch")?.value||"").toLowerCase();
+  const filtered=state.members.filter(m=>
+    (m.name+" "+m.rank+" "+m.id).toLowerCase().includes(query)
+  );
+  $("membersTable").innerHTML=filtered.map(m=>`
+    <tr>
+      <td>${esc(m.name)}<small>عضو مسجل</small></td>
+      <td>NC-${m.id}</td>
+      <td>${esc(m.rank)}</td>
+      <td>${esc(m.status)}</td>
+      <td>
+        <button class="tiny" onclick="promote(${m.id})">ترقية</button>
+        <button class="tiny" onclick="editMember(${m.id})">تعديل</button>
+        <button class="tiny del" onclick="deleteMember(${m.id})">حذف</button>
+      </td>
+    </tr>`).join("")||'<tr><td colspan="5" class="empty">لا توجد نتائج</td></tr>';
+
+  $("recentMembers").innerHTML=state.members.slice(-3).reverse().map(m=>`
+    <div class="rowitem">
+      <div class="rowicon">♙</div>
+      <div><b>${esc(m.name)}</b><small>${esc(m.rank)}</small></div>
+    </div>`).join("")||'<div class="empty">لا يوجد أعضاء</div>';
+
+  $("networkTable").innerHTML=state.network.filter(n=>
+    (n.name+" "+n.type).toLowerCase().includes(($("networkSearch")?.value||"").toLowerCase())
+  ).map(n=>`
+    <tr>
+      <td>${esc(n.name)}</td>
+      <td>NET-${n.id}</td>
+      <td>${esc(n.type)}</td>
+      <td>
+        <button class="tiny" onclick="editNode(${n.id})">تعديل</button>
+        <button class="tiny del" onclick="deleteNode(${n.id})">حذف</button>
+      </td>
+    </tr>`).join("")||'<tr><td colspan="4" class="empty">لا توجد ملفات</td></tr>';
+}
+
+function renderMissions(){
+  const filter=$("missionFilter")?.value||"all";
+  const list=state.missions.filter(m=>filter==="all"||m.status===filter);
+  $("missionsTable").innerHTML=list.map(m=>`
+    <tr>
+      <td>${esc(m.name)}</td>
+      <td>${esc(m.owner)}</td>
+      <td>${m.reward} نقطة</td>
+      <td>${esc(m.status)}</td>
+      <td>
+        <button class="tiny" onclick="toggleMission(${m.id})">تغيير الحالة</button>
+        <button class="tiny del" onclick="deleteMission(${m.id})">حذف</button>
+      </td>
+    </tr>`).join("")||'<tr><td colspan="5" class="empty">لا توجد مهام</td></tr>';
+
+  $("recentMissions").innerHTML=state.missions.slice(0,3).map(m=>`
+    <div class="rowitem">
+      <div class="rowicon">▣</div>
+      <div><b>${esc(m.name)}</b><small>${esc(m.status)} • ${esc(m.owner)}</small></div>
+    </div>`).join("")||'<div class="empty">لا توجد مهام</div>';
+}
+
+function renderActivity(){
+  $("activityLog").innerHTML=state.activity.slice(0,5).map(a=>`
+    <div class="rowitem">
+      <div class="rowicon">↳</div>
+      <div><b>${esc(a)}</b><small>سجل محلي</small></div>
+    </div>`).join("");
+}
+
+const products=[
+  {id:1,name:"مكافأة ميدانية",desc:"عنصر تجريبي داخل النظام.",price:100,icon:"◇"},
+  {id:2,name:"شارة خاصة",desc:"شارة شكلية لملف العضو.",price:150,icon:"✧"},
+  {id:3,name:"رتبة شرفية",desc:"ترقية تجريبية غير رسمية.",price:250,icon:"♜"},
+  {id:4,name:"ملف إضافي",desc:"عنصر افتراضي للمجموعة.",price:80,icon:"▤"},
+  {id:5,name:"شارة ذهبية",desc:"شارة بلون ذهبي للعرض.",price:200,icon:"✦"},
+  {id:6,name:"حزمة مميزة",desc:"حزمة تجريبية افتراضية.",price:300,icon:"⬡"}
+];
+
+function renderStore(){
+  $("storeItems").innerHTML=products.map(p=>`
+    <article class="product">
+      <div class="art">${p.icon}</div>
+      <b>${esc(p.name)}</b>
+      <p>${esc(p.desc)}</p>
+      <div class="price">${p.price} نقطة</div>
+      <button class="btn" onclick="buyProduct(${p.id})">شراء تجريبي</button>
+    </article>`).join("");
+}
+
+function renderAll(){
+  renderProfile();
+  renderStats();
+  renderHQ();
+  renderMembers();
+  renderMissions();
+  renderActivity();
+  renderStore();
+}
+
+function nextId(list){
+  return Math.max(0,...list.map(x=>Number(x.id)||0))+1;
+}
+
+function openModal(title,fields,callback){
+  modalAction=callback;
+  $("modalTitle").textContent=title;
+  $("modalForm").innerHTML=fields.map(f=>`
+    <label>${esc(f.label)}
+      <input class="field" name="${esc(f.name)}"
+        value="${esc(f.value||"")}"
+        ${f.required===false?"":"required"}
+        ${f.type==="url"?'type="url"':'type="text"'}
+        maxlength="240">
+    </label>`).join("");
+  $("modalBg").classList.add("open");
+}
+
+function closeModal(){
+  $("modalBg").classList.remove("open");
+  modalAction=null;
+}
+
+$("modalCancel").addEventListener("click",closeModal);
+$("modalBg").addEventListener("click",e=>{
+  if(e.target===$("modalBg")) closeModal();
+});
+$("modalSave").addEventListener("click",()=>{
+  const form=$("modalForm");
+  if(!form.reportValidity()) return;
+  const data=Object.fromEntries(new FormData(form).entries());
+  if(modalAction) modalAction(data);
+  closeModal();
+});
+
+$("addMember").addEventListener("click",()=>openModal("إضافة عضو",[
+  {name:"name",label:"اسم العضو"},
+  {name:"rank",label:"الرتبة"},
+  {name:"status",label:"الحالة",value:"نشط"}
+],d=>{
+  state.members.push({id:nextId(state.members),name:d.name,rank:d.rank,status:d.status});
+  state.network.push({id:nextId(state.network),name:d.name,type:"عضو",x:30+Math.random()*40,y:35+Math.random()*45});
+  log("إضافة عضو: "+d.name);save();toast("تمت إضافة العضو");
+}));
+
+function editMember(id){
+  const m=state.members.find(x=>x.id===id);if(!m)return;
+  openModal("تعديل بيانات العضو",[
+    {name:"name",label:"الاسم",value:m.name},
+    {name:"rank",label:"الرتبة",value:m.rank},
+    {name:"status",label:"الحالة",value:m.status}
+  ],d=>{
+    Object.assign(m,d);
+    log("تعديل عضو: "+m.name);save();toast("تم تحديث العضو");
+  });
+}
+
+function promote(id){
+  const m=state.members.find(x=>x.id===id);if(!m)return;
+  m.rank=m.rank+" ★";
+  log("تعديل رتبة: "+m.name);save();toast("تم تحديث الرتبة تجريبيًا");
+}
+
+function deleteMember(id){
+  if(!confirm("هل تريد حذف هذا العضو؟"))return;
+  state.members=s

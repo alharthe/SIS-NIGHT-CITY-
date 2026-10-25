@@ -1,145 +1,1539 @@
 
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#090c12">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b10">
 <title>SIS — NIGHT CITY</title>
+
 <style>
-:root{
- --bg:#080b11;--panel:#101722;--panel2:#151e2b;
- --gold:#c8aa72;--gold2:#e5d1a4;--red:#8e2934;
- --text:#e9edf3;--muted:#8994a5;--line:#293342;
- --green:#79bd96;--radius:17px;
+:root {
+  --bg: #080b10;
+  --panel: #111720;
+  --panel2: #18212c;
+  --gold: #b9a16a;
+  --gold-light: #dfcc96;
+  --red: #7f2630;
+  --text: #f2f3f5;
+  --muted: #9ba5b3;
+  --border: #29323e;
+  --green: #4caf80;
+  --blue: #719acb;
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,Tahoma,sans-serif;min-height:100vh}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-button:disabled{opacity:.4;cursor:not-allowed}
-.hidden{display:none!important}
-.muted{color:var(--muted)}
-.gold{color:var(--gold)}
-.eyebrow{font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:bold}
-h1,h2,h3,p{margin-top:0}
-h1{font-size:clamp(23px,4vw,34px);margin:10px 0}
-h2{font-size:21px}
-h3{font-size:16px}
-button,.btn{border:1px solid var(--line);border-radius:10px;background:#17202c;color:var(--text);padding:11px 15px}
-button:hover,.btn:hover{border-color:var(--gold)}
-.primary{background:var(--gold);border-color:var(--gold);color:#11151c;font-weight:bold}
-.danger{border-color:#71303a;color:#e6a0a5}
-input,textarea,select{width:100%;background:#090e16;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;margin:6px 0 13px}
-textarea{min-height:90px;resize:vertical}
-label{font-size:13px;color:#c5ccd6}
-.app{min-height:100vh}
-.sidebar{position:fixed;z-index:20;right:0;top:0;bottom:0;width:270px;background:#0b1018;border-left:1px solid var(--line);padding:22px 17px;display:flex;flex-direction:column;transition:transform .25s}
-.brand{display:flex;align-items:center;gap:12px;padding:4px 5px 22px;border-bottom:1px solid var(--line)}
-.seal{width:49px;height:49px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-weight:bold;letter-spacing:2px}
-.brand small,.profile small{display:block;color:var(--muted);font-size:10px;margin-top:5px}
-.profile{display:flex;align-items:center;gap:12px;padding:20px 5px}
-.avatar{width:42px;height:42px;border:1px solid #645638;border-radius:50%;display:grid;place-items:center;background:#171a20;color:var(--gold);font-weight:bold;overflow:hidden}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.nav{display:grid;gap:5px}
-.nav button{display:flex;align-items:center;gap:12px;text-align:right;background:transparent;border-color:transparent;color:#aab3c0;padding:12px}
-.nav button span{width:22px;text-align:center;color:var(--gold);font-size:18px}
-.nav button.active,.nav button:hover{background:#17202b;border-color:#2b3441;color:white}
-.sidefoot{margin-top:auto;border-top:1px solid var(--line);padding-top:15px;font-size:10px;line-height:2;color:#657183}
-.workspace{margin-right:270px;min-width:0}
-.topbar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:15px;padding:18px 27px;background:rgba(8,12,18,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(15px)}
-.topbar h1{font-size:21px;margin:5px 0}
-.top-actions{display:flex;align-items:center;gap:10px}
-.hamb{display:none;font-size:21px;color:var(--gold)}
-.status{font-size:11px;color:var(--green);border:1px solid #254b3a;padding:7px 10px;border-radius:20px;white-space:nowrap}
-main{max-width:1500px;margin:auto;padding:26px}
-.page{display:none;animation:fade .22s ease}
-.page.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-.hero{position:relative;overflow:hidden;min-height:290px;display:flex;align-items:center;padding:clamp(24px,5vw,54px);border:1px solid #3d3527;border-radius:22px;background:linear-gradient(105deg,rgba(8,11,17,.97),rgba(11,18,28,.87)),radial-gradient(ellipse at 90% 40%,#4b3c25,transparent 50%);margin-bottom:23px}
-.hero:after{content:"SIS";position:absolute;left:4%;bottom:-45px;font-size:clamp(100px,20vw,230px);font-weight:bold;color:rgba(200,170,114,.045);pointer-events:none}
-.hero-content{max-width:720px;position:relative;z-index:1}
-.hero h2{font-size:clamp(26px,4.5vw,42px);line-height:1.7;margin:15px 0}
-.hero em{font-style:normal;color:var(--gold)}
-.hero p{color:#aeb7c5;line-height:2;max-width:620px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.card{background:linear-gradient(145deg,#131c28,#0d131d);border:1px solid var(--line);border-radius:var(--radius);padding:19px;min-width:0}
-.card h2,.card h3{margin-bottom:14px}
-.statnum{font-size:34px;font-weight:bold;color:var(--gold);margin:8px 0}
-.cardtop{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:19px}
-.section-head h2{margin:0}
-.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
-.formgrid .wide{grid-column:1/-1}
-.record{padding:15px 0;border-bottom:1px solid var(--line)}
-.record:last-child{border-bottom:0}
-.record p{color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;margin:8px 0}
-.record-title{font-weight:bold;color:var(--gold2);overflow-wrap:anywhere}
-.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.actions button{padding:7px 11px;font-size:12px}
-.tag{display:inline-block;border:1px solid #564a33;border-radius:30px;padding:4px 9px;color:var(--gold);font-size:11px;margin:3px}
-.empty{padding:20px 0;color:var(--muted);font-size:13px}
-.mapbox{min-height:250px;border:1px dashed #61553d;border-radius:14px;background:radial-gradient(ellipse at center,#18212b,#0b1018);display:grid;place-items:center;text-align:center;padding:25px;color:var(--muted)}
-.network-canvas{position:relative;min-height:440px;overflow:hidden;border:1px solid var(--line);border-radius:15px;background-image:radial-gradient(#3a4655 1px,transparent 1px);background-size:24px 24px;background-color:#0b1119;touch-action:pan-y}
-.node{position:absolute;width:88px;min-height:76px;border:1px solid var(--gold);border-radius:14px;background:#141d28;color:white;text-align:center;padding:8px;font-size:11px;cursor:grab;user-select:none;touch-action:none;box-shadow:0 7px 22px #0006}
-.node .avatar{margin:0 auto 5px;width:32px;height:32px;font-size:10px}
-.node:active{cursor:grabbing}
-.toast{position:fixed;z-index:99;bottom:20px;left:20px;right:20px;max-width:380px;margin:auto;background:#17202b;border:1px solid var(--gold);border-radius:12px;padding:14px;display:none;box-shadow:0 10px 35px #0009}
-.overlay{display:none;position:fixed;inset:0;z-index:15;background:#0009}
-.overlay.open{display:block}
-footer{text-align:center;padding:25px;color:#657183;font-size:11px}
-@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{transform:translateX(100%)}.sidebar.open{transform:translateX(0)}.workspace{margin-right:0}.hamb{display:block}.topbar{padding:15px 18px}main{padding:18px}}
-@media(max-width:600px){.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.formgrid .wide{grid-column:auto}.topbar{padding:13px}.topbar h1{font-size:17px}main{padding:12px}.hero{min-height:310px;padding:23px}.hero h2{font-size:26px}.status{display:none}.card{padding:15px}.network-canvas{min-height:400px}}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.topbar {
+  height: 68px;
+  background: #0d1219;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brand-logo {
+  width: 43px;
+  height: 43px;
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+  border-radius: 5px;
+}
+
+.brand h1 {
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.brand p {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.icon-btn {
+  background: var(--panel2);
+  color: var(--gold-light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-size: 20px;
+}
+
+.layout {
+  display: flex;
+  min-height: calc(100vh - 68px);
+}
+
+.sidebar {
+  width: 245px;
+  flex-shrink: 0;
+  background: #0c1118;
+  border-left: 1px solid var(--border);
+  padding: 20px 12px;
+}
+
+.side-title {
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 8px 12px 14px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: transparent;
+  color: #b7c0cb;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  text-align: right;
+  padding: 13px 12px;
+  margin-bottom: 5px;
+  transition: .2s;
+}
+
+.nav-btn:hover {
+  background: var(--panel2);
+  color: var(--gold-light);
+}
+
+.nav-btn.active {
+  background: #28261f;
+  border-color: #67583a;
+  color: var(--gold-light);
+}
+
+.nav-icon {
+  width: 23px;
+  text-align: center;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 24px;
+}
+
+.page {
+  display: none;
+  animation: appear .2s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.welcome {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 24px;
+  border: 1px solid #51472f;
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at left top, #383222 0%, transparent 50%),
+    linear-gradient(135deg, #171b20, #0d1117);
+  margin-bottom: 22px;
+}
+
+.welcome::after {
+  content: "SIS";
+  position: absolute;
+  left: 10px;
+  bottom: -25px;
+  font-size: 100px;
+  font-weight: bold;
+  color: rgba(185,161,106,.06);
+  pointer-events: none;
+}
+
+.eyebrow {
+  color: var(--gold-light);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.welcome h2 {
+  font-size: clamp(22px, 4vw, 34px);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.welcome p {
+  color: var(--muted);
+  line-height: 1.9;
+  max-width: 650px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 24px 0 15px;
+}
+
+.section-heading h2 {
+  font-size: 19px;
+}
+
+.section-heading p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 7px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.stat-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 18px;
+  min-width: 0;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.stat-number {
+  color: var(--gold-light);
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.stat-note {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 9px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.panel h3 {
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.btn {
+  background: var(--gold);
+  color: #101216;
+  border: 1px solid var(--gold);
+  border-radius: 7px;
+  padding: 11px 15px;
+  font-weight: bold;
+  transition: .2s;
+}
+
+.btn:hover {
+  background: var(--gold-light);
+}
+
+.btn.secondary {
+  background: var(--panel2);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn.danger {
+  background: #451b23;
+  color: #ffdce0;
+  border-color: #6c3039;
+}
+
+.btn.small {
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  color: #c4ccd6;
+  font-size: 12px;
+}
+
+.field input,
+.field textarea,
+.field select,
+.search-input {
+  width: 100%;
+  background: #0b1016;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 12px;
+  min-width: 0;
+}
+
+.field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.field select option {
+  background: var(--panel);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.item-list {
+  display: grid;
+  gap: 10px;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #0d131b;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 13px;
+}
+
+.list-item h4 {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.list-item p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.badge {
+  display: inline-block;
+  background: #28261f;
+  color: var(--gold-light);
+  border: 1px solid #51472f;
+  border-radius: 20px;
+  padding: 5px 9px;
+  font-size: 11px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.empty {
+  text-align: center;
+  padding: 25px 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.notice {
+  padding: 12px;
+  border-radius: 7px;
+  background: #191d22;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.9;
+  margin-bottom: 14px;
+}
+
+.network-board {
+  min-height: 330px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, #1b2530, #0b1016 70%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  touch-action: pan-y;
+}
+
+.network-node {
+  position: absolute;
+  width: 125px;
+  min-height: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  text-align: center;
+  background: #18212c;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.network-node strong {
+  font-size: 12px;
+}
+
+.network-node span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.product-card {
+  background: #0d131b;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.product-card h4 {
+  margin-bottom: 8px;
+}
+
+.product-price {
+  color: var(--gold-light);
+  font-size: 18px;
+  margin: 12px 0;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  background: #1b2028;
+  border-radius: 50%;
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  max-width: calc(100vw - 40px);
+  background: #1b2520;
+  color: #d9f5e5;
+  border: 1px solid #426b53;
+  border-radius: 8px;
+  padding: 13px 17px;
+  box-shadow: 0 8px 30px #0007;
+  display: none;
+}
+
+.toast.show {
+  display: block;
+}
+
+.footer {
+  color: #657080;
+  text-align: center;
+  font-size: 11px;
+  padding: 25px 0 10px;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 205px;
+  }
+
+  .main {
+    padding: 18px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .topbar {
+    height: 60px;
+  }
+
+  .brand h1 {
+    font-size: 14px;
+  }
+
+  .brand p {
+    font-size: 9px;
+  }
+
+  .brand-logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .layout {
+    min-height: calc(100vh - 60px);
+  }
+
+  .sidebar {
+    display: none;
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    right: 0;
+    width: min(285px, 85vw);
+    overflow-y: auto;
+    z-index: 30;
+    box-shadow: -15px 0 35px #0008;
+  }
+
+  .sidebar.open {
+    display: block;
+  }
+
+  .main {
+    padding: 13px;
+    width: 100%;
+  }
+
+  .welcome {
+    padding: 23px 17px;
+  }
+
+  .stats {
+    gap: 9px;
+  }
+
+  .stat-card {
+    padding: 13px;
+  }
+
+  .stat-number {
+    font-size: 23px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field.full {
+    grid-column: auto;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+  .network-node {
+    width: 108px;
+  }
+}
 </style>
 </head>
-<body>
-<div class="app">
-<div class="overlay" id="overlay" onclick="menu(false)"></div>
-<aside class="sidebar" id="sidebar">
-  <div class="brand">
-    <div class="seal">SIS</div>
-    <div><b>SIS — NIGHT CITY</b><small>BRITISH INTELLIGENCE</small></div>
-  </div>
-  <div class="profile">
-    <div class="avatar" id="sideAvatar">SIS</div>
-    <div><b id="sideName">مدير الوكالة</b><small id="sideRank">الإدارة</small></div>
-  </div>
-  <nav class="nav" id="navigation">
-    <button class="active" data-page="dashboard"><span>⌂</span>الرئيسية</button>
-    <button data-page="profile"><span>♙</span>ملف المستخدم</button>
-    <button data-page="map"><span>⌖</span>الخريطة</button>
-    <button data-page="hq"><span>▤</span>مقرات الوكالة</button>
-    <button data-page="members"><span>♧</span>الأعضاء والرتب</button>
-    <button data-page="missions"><span>▣</span>المهام والمكافآت</button>
-    <button data-page="network"><span>◎</span>NETWORK</button>
-    <button data-page="store"><span>◇</span>المتجر</button>
-    <button data-page="ai"><span>✧</span>SIS AI</button>
-    <button data-page="settings"><span>⚙</span>الإعدادات</button>
-  </nav>
-  <div class="sidefoot">SIS — NIGHT CITY<br>LOCAL PROTOTYPE<br>VERSION 2.0</div>
-</aside>
-
-<div class="workspace">
+</body>
+ 
 <header class="topbar">
-  <div><div class="eyebrow">SECURE INTELLIGENCE SYSTEM</div><h1 id="pageTitle">مركز العمليات الرئيسي</h1><div class="muted" style="font-size:12px">إدارة المعلومات والعمليات</div></div>
-  <div class="top-actions"><span class="status">● النظام جاهز</span><button class="hamb" onclick="menu()">☰</button></div>
-</header>
-
-<main>
-<section class="page active" id="page-dashboard">
-  <div class="hero">
-    <div class="hero-content">
-      <div class="eyebrow">WELCOME TO SIS</div>
-      <h2>السلام عليكم<br>مرحبًا بك في <em>الوكالة الاستخباراتية البريطانية</em></h2>
-      <p>مركز إدارة المعلومات والأشخاص والمهام. لكل معلومة قيمتها، ولكل مهمة مسؤول، ولكل صلاحية حدود.</p>
-      <button class="primary" onclick="go('network')">دخول شبكة المعلومات ←</button>
+  <div class="brand">
+    <div class="brand-logo">SIS</div>
+    <div>
+      <h1>SIS — NIGHT CITY</h1>
+      <p>BRITISH INTELLIGENCE AGENCY</p>
     </div>
   </div>
-  <div class="grid">
-    <div class="card"><div class="muted">الأعضاء المسجلون</div><div class="statnum" id="countMembers">0</div><button onclick="go('members')">إدارة الأعضاء</button></div>
-    <div class="card"><div class="muted">مقرات الوكالة</div><div class="statnum" id="countHQ">0</div><button onclick="go('hq')">عرض المقرات</button></div>
-    <div class="card"><div class="muted">المهام المسجلة</div><div class="statnum" id="countMissions">0</div><button onclick="go('missions')">مركز المهام</button></div>
-  </div>
-  <div
+  <button class="icon-btn" id="menuToggle" aria-label="فتح القائمة">☰</button>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-title">القائمة الرئيسية</div>
+
+    <button class="nav-btn active" data-page="home">
+      <span class="nav-icon">⌂</span> الرئيسية
+    </button>
+    <button class="nav-btn" data-page="profile">
+      <span class="nav-icon">◉</span> الملف الشخصي
+    </button>
+    <button class="nav-btn" data-page="map">
+      <span class="nav-icon">⌖</span> الخريطة
+    </button>
+    <button class="nav-btn" data-page="hq">
+      <span class="nav-icon">▦</span> مقر الوكالة
+    </button>
+    <button class="nav-btn" data-page="members">
+      <span class="nav-icon">♙</span> الأعضاء والرتب
+    </button>
+    <button class="nav-btn" data-page="missions">
+      <span class="nav-icon">◎</span> المهام والمكافآت
+    </button>
+    <button class="nav-btn" data-page="network">
+      <span class="nav-icon">⌘</span> NETWORK
+    </button>
+    <button class="nav-btn" data-page="store">
+      <span class="nav-icon">◇</span> المتجر
+    </button>
+    <button class="nav-btn" data-page="ai">
+      <span class="nav-icon">✧</span> SIS AI
+    </button>
+
+    <div class="side-title" style="margin-top:20px">النظام</div>
+    <button class="nav-btn" data-page="settings">
+      <span class="nav-icon">⚙</span> الإعدادات
+    </button>
+  </aside>
+
+  <main class="main">
+
+    <!-- الصفحة الرئيسية -->
+    <section class="page active" id="page-home">
+      <div class="welcome">
+        <div class="eyebrow">SECRET INTELLIGENCE SERVICE</div>
+        <h2>السلام عليكم، مرحبًا بك في الوكالة الاستخباراتية البريطانية</h2>
+        <p>
+          نظام SIS — NIGHT CITY لإدارة الأعضاء والمهام والشبكات
+          والمكافآت، ضمن واجهة استخباراتية موحدة.
+        </p>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <h2>مركز العمليات</h2>
+          <p>ملخص بيانات النظام المسجلة على هذا الجهاز</p>
+        </div>
+        <span class="badge">SIS SYSTEM</span>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">الأعضاء</div>
+          <div class="stat-number" id="statMembers">0</div>
+          <div class="stat-note">إجمالي الأعضاء المسجلين</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">الشبكات</div>
+          <div class="stat-number" id="statNetworks">0</div>
+          <div class="stat-note">شبكات NETWORK</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">المهام</div>
+          <div class="stat-number" id="statMissions">0</div>
+          <div class="stat-note">إجمالي المهام</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">الطلبات المعلقة</div>
+          <div class="stat-number" id="statPending">0</div>
+          <div class="stat-note">تحتاج مراجعة الإدارة</div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <h2>الوصول السريع</h2>
+          <p>انتقل مباشرة إلى إحدى وحدات النظام</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <button class="panel" data-goto="members" style="text-align:right;color:inherit">
+          <h3>♙ إدارة الأعضاء</h3>
+          <p class="muted">إضافة الأعضاء وتحديث بياناتهم ورتبهم.</p>
+        </button>
+        <button class="panel" data-goto="network" style="text-align:right;color:inherit">
+          <h3>⌘ الشبكات</h3>
+          <p class="muted">إنشاء شبكات وربط قادتها وأعضائها.</p>
+        </button>
+        <button class="panel" data-goto="missions" style="text-align:right;color:inherit">
+          <h3>◎ المهام</h3>
+          <p class="muted">إدارة المهام وطلبات المكافآت.</p>
+        </button>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <h2>آخر النشاطات</h2>
+          <p>آخر العمليات المسجلة داخل هذه النسخة</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div id="activityList" class="item-list">
+          <div class="empty">لا توجد نشاطات مسجلة حتى الآن.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- الملف الشخصي -->
+    <section class="page" id="page-profile">
+      <div class="section-heading">
+        <div>
+          <h2>الملف الشخصي</h2>
+          <p>بيانات حسابك داخل النظام</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="profile-avatar">SIS</div>
+        <h3 id="profileName">عضو الوكالة</h3>
+        <p class="muted" id="profileRank">الرتبة: غير محددة</p>
+        <p class="muted" style="margin-top:8px">
+          الرصيد: <strong id="profileBalance">0</strong> نقطة
+        </p>
+      </div>
+
+      <div class="panel">
+        <h3>تحديث الملف الشخصي</h3>
+        <form id="profileForm" class="form-grid">
+          <div class="field">
+            <label for="profileNameInput">الاسم</label>
+            <input id="profileNameInput" maxlength="60" required placeholder="اكتب اسمك">
+          </div>
+          <div class="field">
+            <label for="profileCodeInput">رقم العضوية</label>
+            <input id="profileCodeInput" maxlength="30" placeholder="رقم العضوية">
+          </div>
+          <div class="field full">
+            <label for="profileBioInput">نبذة عنك</label>
+            <textarea id="profileBioInput" maxlength="500" placeholder="نبذة مختصرة"></textarea>
+          </div>
+          <div class="field full">
+            <button class="btn" type="submit">حفظ الملف الشخصي</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- الخريطة -->
+    <section class="page" id="page-map">
+      <div class="section-heading">
+        <div>
+          <h2>الخريطة العملياتية</h2>
+          <p>إضافة صورة الخريطة الخاصة بالوكالة</p>
+        </div>
+      </div>
+
+      <div class="notice">
+        يمكنك إضافة صورة الخريطة من جهازك لمعاينتها في هذه الصفحة.
+        في هذه النسخة، الصورة محلية وليست مرفوعة إلى خادم مشترك.
+      </div>
+
+      <div class="panel">
+        <form id="mapForm">
+          <div class="field">
+            <label for="mapImageInput">اختيار صورة الخريطة</label>
+            <input id="mapImageInput" type="file" accept="image/*">
+          </div>
+          <div class="actions">
+            <button class="btn" type="submit">عرض الخريطة</button>
+            <button class="btn secondary" type="button" id="removeMap">إزالة الصورة</button>
+          </div>
+        </form>
+        <div id="mapPreview" style="margin-top:18px">
+          <div class="empty">لم تتم إضافة خريطة حتى الآن.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- مقر الوكالة -->
+    <section class="page" id="page-hq">
+      <div class="section-heading">
+        <div>
+          <h2>مقر الوكالة</h2>
+          <p>إدارة مواقع ومعلومات المقر</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>إضافة موقع أو قسم</h3>
+        <form id="hqForm" class="form-grid">
+          <div class="field">
+            <label for="hqName">اسم القسم أو الموقع</label>
+            <input id="hqName" maxlength="80" required placeholder="اسم القسم">
+          </div>
+          <div class="field">
+            <label for="hqManager">المسؤول</label>
+            <input id="hqManager" maxlength="60" placeholder="اسم المسؤول">
+          </div>
+          <div class="field full">
+            <label for="hqDescription">الوصف</label>
+            <textarea id="hqDescription" maxlength="500" placeholder="تفاصيل القسم أو الموقع"></textarea>
+          </div>
+          <div class="field full">
+            <button class="btn" type="submit">إضافة إلى المقر</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>أقسام ومواقع الوكالة</h3>
+        <div id="hqList" class="item-list">
+          <div class="empty">لا توجد أقسام مضافة.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- الأعضاء والرتب -->
+    <section class="page" id="page-members">
+      <div class="section-heading">
+        <div>
+          <h2>الأعضاء والرتب</h2>
+          <p>إضافة الأعضاء وإدارة بياناتهم</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>تسجيل عضو جديد</h3>
+        <form id="memberForm" class="form-grid">
+          <div class="field">
+            <label for="memberName">اسم العضو</label>
+            <input id="memberName" maxlength="60" required placeholder="اسم العضو">
+          </div>
+          <div class="field">
+            <label for="memberCode">رقم العضوية</label>
+            <input id="memberCode" maxlength="30" placeholder="رقم اختياري">
+          </div>
+          <div class="field">
+            <label for="memberRank">الرتبة</label>
+            <select id="memberRank">
+              <option>متدرب</option>
+              <option>عميل</option>
+              <option>عميل أول</option>
+              <option>ضابط استخبارات</option>
+              <option>رئيس قسم</option>
+              <option>نائب المدير</option>
+              <option>مدير الوكالة</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="memberStatus">الحالة</label>
+            <select id="memberStatus">
+              <option value="نشط">نشط</option>
+              <option value="إجازة">إجازة</option>
+              <option value="موقوف">موقوف</option>
+            </select>
+          </div>
+          <div class="field full">
+            <button class="btn" type="submit">إضافة العضو</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="section-heading" style="margin-top:0">
+          <h3>سجل الأعضاء</h3>
+          <input class="search-input" id="memberSearch" placeholder="بحث عن عضو..." style="max-width:240px">
+        </div>
+        <div id="memberList" class="item-list">
+          <div class="empty">لا يوجد أعضاء مسجلون.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- المهام والمكافآت -->
+    <section class="page" id="page-missions">
+      <div class="section-heading">
+        <div>
+          <h2>المهام والمكافآت</h2>
+          <p>إنشاء المهام ومراجعة طلبات المكافآت</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>إنشاء مهمة</h3>
+        <form id="missionForm" class="form-grid">
+          <div class="field">
+            <label for="missionName">اسم المهمة</label>
+            <input id="missionName" maxlength="100" required placeholder="اسم المهمة">
+          </div>
+          <div class="field">
+            <label for="missionReward">المكافأة بالنقاط</label>
+            <input id="missionReward" type="number" min="0" max="1000000" required value="100">
+          </div>
+          <div class="field full">
+            <label for="missionDescription">تفاصيل المهمة</label>
+            <textarea id="missionDescription" maxlength="1000" placeholder="وصف المهمة وشروطها"></textarea>
+          </div>
+          <div class="field full">
+            <button class="btn" type="submit">نشر المهمة</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>المهام المتاحة</h3>
+        <div id="missionList" class="item-list">
+          <div class="empty">لا توجد مهام حاليًا.</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>طلبات المكافآت</h3>
+        <div id="rewardRequestList" class="item-list">
+          <div class="empty">لا توجد طلبات مكافآت.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NETWORK -->
+    <section class="page" id="page-network">
+      <div class="section-heading">
+        <div>
+          <h2>NETWORK</h2>
+          <p>إنشاء الشبكات وربط القادة والأعضاء</p>
+        </div>
+        <span class="badge">حد أقصى 100 شبكة</span>
+      </div>
+
+      <div class="panel">
+        <h3>إنشاء شبكة جديدة</h3>
+        <form id="networkForm" class="form-grid">
+          <div class="field">
+            <label for="networkName">اسم الشبكة</label>
+            <input id="networkName" maxlength="80" required placeholder="اسم الشبكة">
+          </div>
+          <div class="field">
+            <label for="networkLeader">قائد الشبكة</label>
+            <input id="networkLeader" maxlength="60" required placeholder="اسم القائد">
+          </div>
+          <div class="field">
+            <label for="networkImage">رابط صورة الشبكة</label>
+            <input id="networkImage" type="url" maxlength="1000" placeholder="https://example.com/image.jpg">
+          </div>
+          <div class="field">
+            <label for="networkLink">رابط الشبكة</label>
+            <input id="networkLink" type="url" maxlength="1000" placeholder="https://example.com">
+          </div>
+          <div class="field full">
+            <label for="networkMembers">أسماء الأعضاء (افصل بينها بفاصلة)</label>
+            <textarea id="networkMembers" maxlength="2000" placeholder="عضو 1، عضو 2، عضو 3"></textarea>
+          </div>
+          <div class="field full">
+            <button class="btn" type="submit">إنشاء الشبكة</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>الشبكات المسجلة</h3>
+        <div id="networkList" class="item-list">
+          <div class="empty">لم تتم إضافة شبكات.</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>مخطط الشبكة</h3>
+        <p class="muted" style="font-size:12px;margin-bottom:12px">
+          يمكنك سحب الدوائر بإصبعك أو بالفأرة لتغيير أماكنها.
+        </p>
+        <div id="networkBoard" class="network-board">
+          <div class="empty">أضف شبكة لعرض مخططها هنا.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- المتجر -->
+    <section class="page" id="page-store">
+      <div class="section-heading">
+        <div>
+          <h2>متجر الوكالة</h2>
+          <p>استخدم رصيد النقاط لشراء المنتجات</p>
+        </div>
+        <span class="badge">رصيدك: <span id="storeBalance">0</span></span>
+      </div>
+
+      <div class="panel">
+        <h3>إضافة منتج</h3>
+        <form id="productForm" class="form-grid">
+          <div class="field">
+            <label for="productName">اسم المنتج</label>
+            <input id="productName" maxlength="80" required placeholder="اسم المنتج">
+          </div>
+          <div class="field">
+            <label for="productPrice">السعر بالنقاط</label>
+            <input id="productPrice" type="number" min="1" max="1000000" required placeholder="السعر">
+          </div>
+          <div class="field full">
+            <label for="productDescription">الوصف</label>
+            <textarea id="productDescription" maxlength="500" placeholder="وصف المنتج"></textarea>
+          </div>
+          <div class="field full">
+            <button class="btn" type="submit">إضافة المنتج</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>المنتجات المتاحة</h3>
+        <div id="productList" class="grid-3">
+          <div class="empty">المتجر فارغ حاليًا.</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>مشترياتي</h3>
+        <div id="purchaseList" class="item-list">
+          <div class="empty">لم تسجل مشتريات بعد.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIS AI -->
+    <section class="page" id="page-ai">
+      <div class="section-heading">
+        <div>
+          <h2>SIS AI</h2>
+          <p>مساعد الوكالة للمعلومات المسجلة داخل التطبيق</p>
+        </div>
+        <span class="badge">AI ASSISTANT</span>
+      </div>
+
+      <div class="panel">
+        <div class="notice">
+          هذه نسخة أولية من المساعد تعتمد على بيانات التطبيق وإجابات محلية.
+          البحث الذكي عبر الإنترنت أو نموذج ذكاء اصطناعي حقيقي يحتاج إلى
+          ربط خدمة خارجية مناسبة.
+        </div>
+
+        <div id="chatMessages" class="item-list" style="margin-bottom:15px">
+          <div class="list-item">
+            <div>
+              <h4>SIS AI</h4>
+              <p>مرحبًا بك. يمكنك سؤالي عن الأعضاء أو المهام أو الشبكات المسجلة.</p>
+            </div>
+          </div>
+        </div>
+
+        <form id="aiForm">
+          <div class="field">
+            <label for="aiInput">رسالتك</label>
+            <textarea id="aiInput" maxlength="1000" required placeholder="اكتب سؤالك هنا..."></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn" type="submit">إرسال</button>
+            <button class="btn secondary" type="button" id="clearChat">مسح المحادثة</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- الإعدادات -->
+    <section class="page" id="page-settings">
+      <div class="section-heading">
+        <div>
+          <h2>إعدادات النظام</h2>
+          <p>تخصيص اسم الوكالة وحفظ نسخة من البيانات</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>تخصيص الواجهة</h3>
+        <form id="settingsForm" class="form-grid">
+          <div class="field">
+            <label for="agencyNameInput">اسم الوكالة</label>
+            <input id="agencyNameInput" maxlength="80" value="SIS — NIGHT CITY">
+          </div>
+          <div class="field">
+            <label for="agencySubtitleInput">الوصف المختصر</label>
+            <input id="agencySubtitleInput" maxlength="100" value="BRITISH INTELLIGENCE AGENCY">
+          </div>
+          <div class="field full">
+            <button class="btn" type="submit">حفظ الإعدادات</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>البيانات</h3>
+        <p class="muted" style="font-size:12px;line-height:1.9;margin-bottom:12px">
+          يمكنك تنزيل نسخة احتياطية بصيغة JSON أو استيراد نسخة محفوظة.
+          لا تستورد ملفًا لا تثق بمصدره.
+        </p>
+        <div class="actions">
+          <button class="btn" type="button" id="exportData">تصدير البيانات</button>
+          <button class="btn secondary" type="button" id="importButton">استيراد نسخة</button>
+          <input id="importFile" type="file" accept=".json,application/json" hidden>
+        </div>
+      </div>
+
+      <div class="notice">
+        تنبيه: هذه النسخة الأولية تحفظ البيانات في متصفح الجهاز.
+        لا توفر تسجيل دخول آمنًا أو صلاحيات إدارية حقيقية أو مزامنة
+        بين أجهزة المستخدمين. لا تضع فيها معلومات سرية حقيقية.
+      </div>
+    </section>
+
+    <footer class="footer">
+      SIS — NIGHT CITY © 2026
+    </footer>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+/* ===== أدوات مساعدة ===== */
+const $ = id => document.getElementById(id);
+
+const DB_KEY = "sis_night_city_v1";
+
+const defaults = {
+  profile: { name: "عضو الوكالة", code: "", bio: "" },
+  balance: 0,
+  members: [],
+  networks: [],
+  missions: [],
+  requests: [],
+  headquarters: [],
+  products: [],
+  purchases: [],
+  activities: [],
+  settings: {
+    name: "SIS — NIGHT CITY",
+    subtitle: "BRITISH INTELLIGENCE AGENCY"
+  },
+  mapImage: ""
+};
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(DB_KEY);
+    if (!saved) return structuredClone(defaults);
+
+    const parsed = JSON.parse(saved);
+    return {
+      ...structuredClone(defaults),
+      ...parsed,
+      profile: { ...defaults.profile, ...parsed.profile },
+      settings: { ...defaults.settings, ...parsed.settings }
+    };
+  } catch {
+    return structuredClone(defaults);
+  }
+}
+
+let data = loadData();
+
+function saveData() {
+  try {
+    localStorage.setItem(DB_KEY, JSON.stringify(data));
+    return true;
+  } catch {
+    notify("تعذر الحفظ. قد تكون مساحة التخزين ممتلئة.");
+    return false;
+  }
+}
+
+function notify(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(notify.timer);
+  notify.timer = setTimeout(() => toast.classList.remove("show"), 2800);
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function makeId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+function logActivity(message) {
+  data.activities.unshift({
+    id: makeId(),
+    message,
+    time: new Date().toLocaleString("ar-SA")
+  });
+  data.activities = data.activities.slice(0, 30);
+  saveData();
+}
+
+function renderEmpty(message) {
+  return `<div class="empty">${escapeHTML(message)}</div>`;
+}
+
+function safeURL(value) {
+  try {
+    const url = new URL(value);
+    if (url.protocol === "https:" || url.protocol === "http:") {
+      return url.href;
+    }
+  } catch {}
+  return "";
+}
+
+/* ===== التنقل بين الصفحات ===== */
+function goToPage(pageName) {
+  const page = $("page-" + pageName);
+  if (!page) return;
+
+  document.querySelectorAll(".page").forEach(el => {
+    el.classList.toggle("active", el === page);
+  });
+
+  document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.page === pageName);
+  });
+
+  $("sidebar").classList.remove("open");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
+  btn.addEventListener("click", () => goToPage(btn.dataset.page));
+});
+
+document.querySelectorAll("[data-goto]").forEach(btn => {
+  btn.addEventListener("click", () => goToPage(btn.dataset.goto));
+});
+
+$("menuToggle").addEventListener("click", () => {
+  $("sidebar").classList.toggle("open");
+});
+
+/* ===== الملف الشخصي ===== */
+function renderProfile() {
+  $("profileName").textContent = data.profile.name || "عضو الوكالة";
+  $("profileRank").textContent = "الرتبة: " + (
+    data.members.find(m => m.name === data.profile.name)?.rank || "غير محددة"
+  );
+  $("profileBalance").textContent = data.balance;
+  $("storeBalance").textContent = data.balance;
+
+  $("profileNameInput").value = data.profile.name || "";
+  $("profileCodeInput").value = data.profile.code || "";
+  $("profileBioInput").value = data.profile.bio || "";
+}
+
+$("profileForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  data.profile.name = $("profileNameInput").value.trim();
+  data.profile.code = $("profileCodeInput").value.trim();
+  data.profile.bio = $("profileBioInput").value.trim();
+
+  saveData();
+  logActivity("تم تحديث الملف الشخصي");
+  renderAll();
+  notify("تم حفظ الملف الشخصي");
+});
+
+/* ===== مقر الوكالة ===== */
+function renderHQ() {
+  $("hqList").innerHTML = data.headquarters.length
+    ? data.headquarters.map(item => `
+      <div class="list-item">
+        <div>
+          <h4>${escapeHTML(item.name)}</h4>
+          <p>المسؤول: ${escapeHTML(item.manager || "غير محدد")}</p>
+          <p>${escapeHTML(item.description || "")}</p>
+        </div>
+        <button class="btn danger small" data-delete-hq="${item.id}">حذف</button>
+      </div>
+    `).join("")
+    : renderEmpty("لا توجد أقسام مضافة.");
+}
+
+$("hqForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  data.headquarters.push({
+    id: makeId(),
+    name: $("hqName").value.trim(),
+    manager: $("hqManager").value.trim(),
+    description: $("hqDescription").value.trim()
+  });
+
+  saveData();
+  logActivity("تمت إضافة قسم أو موقع جديد");
+  event.target.reset();
+  renderAll();
+  notify("تمت إضافة القسم");
+});
+
+$("hqList").addEventListener("click", event => {
+  const button = event.target.closest("[data-delete-hq]");
+  if (!button) return;
+  data.headquarters = data.headquarters.filter(
+    item => item.id !== button.dataset.deleteHq
+  );
+  saveData();
+  renderAll();
+  notify("تم حذف القسم");
+});
+
+/* ===== إدارة الأعضاء ===== */
+function renderMembers() {
+  const query = $("memberSearch").value.trim().toLowerCase();
+
+  const members = data.members.filter(member =>
+    (member.name + " " + member.code + " " + member.rank)
+      .toLowerCase().includes(query)
+  );
+
+  $("memberList").innerHTML = members.length
+    ? members.map(member => `
+      <div class="list-item">
+        <div>
+          <h4>${escapeHTML(member.name)}</h4>
+          <p>الرقم: ${escapeHTML(member.code || "—")}</p>
+          <p>الرتبة: <span class="badge">${escapeHTML(member.rank)}</span></p>
+          <p>الحالة: ${escapeHTML(member.status)}</p>
+        </div>
+        <div class="actions">
+          <button class="btn secondary small" data-rank-up="${member.id}">ترقية</button>
+          <button class="btn secondary small" data-rank-down="${member.id}">تخفيض</button>
+          <button class="btn danger small" data-delete-member="${member.id}">حذف</button>
+        </div>
+      </div>
+    `).join("")
+    : renderEmpty("لا توجد نتائج.");
+}
+
+$("memberSearch").addEventListener("input", renderMembers);
+
+$("memberForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (data.members.length >= 1000) {
+    notify("وصلت إلى الحد التجريبي للأعضاء.");
+    return;
+  }
+
+  data.members.push({
+    id: makeId(),
+    name: $("memberName").value.trim(),
+    code: $("memberCode").value.trim(),
+    rank: $("memberRank").value,
+    status: $("memberStatus").value
+  });
+
+  saveData();
+  logActivity("تمت إضافة عضو جديد");
+  event.target.reset();
+  renderAll();
+  notify("تمت إضافة العضو");
+});
+
+const ranks = [
+  "متدرب",
+  "عميل",
+  "عميل أول",
+  "ضابط استخبارات",
+  "رئيس قسم",
+  "نائب المدير",
+  "مدير الوكالة"
+];
+
+$("memberList").addEventListener("click", event => {
+  const button = event.target.closest("button");
+  if (!button) return;
+
+  const up = button.dataset.rankUp;
+  const down = button.dataset.rankDown;
+  const del = button.dataset.deleteMember;
+
+  if (del) {
+    data.members = data.members.filter(m => m.id !== del);
+    saveData();
+    logActivity("تم حذف عضو");
+    renderAll();
+    notify("تم حذف العضو");
+    return;
+  }
+
+  const member = data.members.find(m => m.id === (up || down));
+  if (!member) return;
+
+  const index = ranks.indexOf(member.rank);
+  const nextIndex = up
+    ? Math.min(ranks.length - 1, index + 1)
+    : Math.max(0, index - 1);
+
+  if (nextIndex === index) {
+    notify("لا يمكن تغيير الرتبة أكثر من ذلك");
+    return;
+  }
+
+  member.rank = ranks[nextIndex];
+  saveData();
+  logActivity("تم تحديث رتبة عضو");
+  renderAll();
+  notify("تم تحديث الرتبة");
+});
+
+/* ===== المهام والمكافآت ===== */
+function renderMissions() {
+  $("missionList").innerHTML = data.missions.length
+    ? data.missions.map(mission => `
+      <div class="list-item">
+        <div>
+          <h4>${escapeHTML(mission.name)}</h4>
+          <p>${escapeHTML(mission.description || "لا يوجد وصف")}</p>
+          <p>المكافأة: ${mission.reward} نقطة</p>
+          <p>الحالة: ${escapeHTML(mission.status)}</p>
+        </div>
+        <div class="actions">
+          <button class="btn small" data-request-mission="${mission.id}">طلب المكافأة</button>
+          <button class="btn danger small" data-delete-mission="${mission.id}">حذف</button>
+        </div>
+      </div>
+    `).join("")
+    : renderEmpty("لا توجد مهام حاليًا.");
+
+  $("rewardRequestList").innerHTML = data.requests.length
+    ? data.requests.map(request => `
+      <div class="list-item">
+        <div>
+          <h4>${escapeHTML(request.missionName)}</h4>
+          <p>العضو: ${escapeHTML(request.memberName)}</p>
+          <p>المكافأة: ${request.reward} نقطة</p>
+          <p>الحالة: ${escapeHTML(request.status)}</p>
+        </div>
+        ${request.status === "معلق" ? `
+          <div class="actions">
+            <button class="btn small" data-approve-request="${request.id}">موافقة</button>
+            <button class="btn danger small" data-reject-request="${request.id}">رفض</button>
+          </div>
+        ` : ""}
+      </div>
+    `).join("")
+    : renderEmpty("لا توجد طلبات مكافآت.");
+}
+
+$("missionForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  data.missions.push({
+    id: makeId(),
+    name: $("missionName").value.trim(),
+    reward: Number($("missionReward").value),
+    description: $("missionDescription").value.trim(),
+    status: "متاحة"
+  });
+
+  saveData();
+  logActivity("تم إنشاء مهمة جديدة");
+  event.target.reset();
+  $("missionReward").value = 100;
+  renderAll();
+  notify("تم نشر المهمة");
+});
+
+$("missionList").addEventListener("click", event => {
+  const button = event.target.closest("button");
+  if (!button) return;
+
+  if (button.dataset.deleteMission) {
+    data.missions = data.missions.filter(
+      m => m.id !== button.dataset.deleteMission
+    );
+    saveData();
+    renderAll();
+    notify("تم حذف المهمة");
+    return;
+  }
+
+  if (button.dataset.requestMission) {
+    const mission = data.missions.find(
+      m => 

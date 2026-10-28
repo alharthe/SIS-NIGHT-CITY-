@@ -1,126 +1,256 @@
 
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080d18">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090a0e">
 <title>SIS — NIGHT CITY</title>
 <style>
-:root{--bg:#080d18;--panel:#101827;--panel2:#151f30;--gold:#d7b56d;--gold2:#f1d99c;--text:#f4f0e6;--muted:#9aa7ba;--border:#28344a;--red:#d84b55}
+:root {
+  --bg:#090a0e;
+  --panel:#13151d;
+  --panel2:#1b1e28;
+  --border:#303441;
+  --text:#f3f3f7;
+  --muted:#9da4b4;
+  --red:#e3263a;
+  --accent:#e3263a;
+}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#142039 0,#080d18 55%);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+body {
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Tahoma,sans-serif;
+}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-.topbar{height:65px;display:flex;align-items:center;gap:12px;padding:0 16px;background:#0b1220;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
-.brand{font-weight:bold;letter-spacing:2px;color:var(--gold);font-size:19px}
-.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:3px;margin-top:4px}
-.menu-btn,.icon-btn{background:var(--panel2);color:var(--gold);border:1px solid var(--border);border-radius:9px;padding:9px 12px}
-.top-status{margin-right:auto;color:#85d6ad;font-size:11px}
-.sidebar{position:fixed;z-index:9;right:0;top:65px;bottom:0;width:min(285px,84vw);padding:15px;background:#0b1220;border-left:1px solid var(--border);overflow:auto;transform:translateX(105%);transition:.22s}
-.sidebar.open{transform:translateX(0)}
-.overlay{position:fixed;inset:65px 0 0;background:#0009;z-index:8;display:none}
-.overlay.show{display:block}
-.nav-label{color:var(--gold);font-size:11px;margin:15px 10px 8px}
-.nav-btn{width:100%;text-align:right;display:flex;align-items:center;gap:12px;padding:12px;margin:4px 0;background:transparent;color:#cbd3e0;border:1px solid transparent;border-radius:9px}
-.nav-btn.active,.nav-btn:hover{background:#182337;border-color:#4c442e;color:var(--gold2)}
-.nav-btn span:first-child{width:23px;text-align:center}
-main{padding:20px 15px 50px;max-width:1050px;margin:auto}
-.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px}
-h1{font-size:24px;margin:9px 0}
-.subtitle{color:var(--muted);font-size:13px;line-height:1.8}
-.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:20px 0}
-.stat,.panel,.item-card{background:linear-gradient(145deg,#121c2c,#0d1421);border:1px solid var(--border);border-radius:13px;padding:15px}
-.stat strong{display:block;font-size:25px;color:var(--gold);margin-bottom:8px}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
+  outline:2px solid #c4a15a;outline-offset:2px
+}
+header {
+  padding:17px 20px;background:#101117;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;position:sticky;top:0;z-index:5
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo {
+  width:44px;height:44px;border:1px solid var(--red);
+  border-radius:12px;display:grid;place-items:center;
+  font-weight:bold;background:#261018
+}
+h1{font-size:17px;margin:0}
+header p{font-size:11px;color:var(--muted);margin:5px 0 0}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:90vh}
+aside{background:#0e1016;border-left:1px solid var(--border);padding:15px}
+nav button,.mobile-nav button{
+  width:100%;padding:12px;margin:3px 0;border:1px solid transparent;
+  border-radius:9px;background:transparent;color:#c4c8d2;text-align:right
+}
+nav button:hover,.mobile-nav button:hover{background:var(--panel2)}
+nav button.active,.mobile-nav button.active{
+  background:#30131b;border-color:#672532;color:white
+}
+main{padding:24px;min-width:0}
+h2{font-size:25px;margin:0 0 9px}
+.sub{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:22px}
+.btn {
+  border:1px solid var(--border);border-radius:9px;padding:10px 13px;
+  background:var(--panel2);color:white;font-size:12px
+}
+.btn.primary{background:var(--accent);border-color:var(--accent)}
+.btn.danger{background:#301219;border-color:#7b2835;color:#ffb9c1}
+.btn:hover{filter:brightness(1.15)}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}
+input,textarea,select{
+  background:#0d0f15;color:white;border:1px solid var(--border);
+  border-radius:9px;padding:11px;width:100%;min-width:0
+}
+.search{flex:1;min-width:170px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0}
+.stat,.card,.panel{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:13px;padding:15px;min-width:0
+}
 .stat span{font-size:12px;color:var(--muted)}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:24px 0 13px}
-.section-head h2{font-size:17px;margin:0}
-.btn{border:1px solid #8c7547;background:linear-gradient(135deg,#d9bb79,#a9894a);color:#111827;padding:10px 13px;border-radius:8px;font-weight:bold}
-.btn.secondary{background:#182337;color:var(--gold2);border-color:var(--border)}
-.btn.danger{background:#3b1821;color:#ffb6bc;border-color:#6c3038}
-.btn.small{padding:7px 9px;font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.item-card{min-width:0}
-.item-card h3{margin:8px 0;font-size:16px;overflow-wrap:anywhere}
-.item-card p{font-size:12px;line-height:1.7;color:var(--muted);overflow-wrap:anywhere}
-.card-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
-.tag{display:inline-block;font-size:10px;border:1px solid #655635;color:var(--gold2);padding:5px 8px;border-radius:30px;margin:3px}
-.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}
-.field label{font-size:12px;color:var(--muted)}
-.field input,.field textarea,.field select,.search{width:100%;background:#090f1a;color:var(--text);border:1px solid var(--border);padding:12px;border-radius:8px;outline:none}
-.field input:focus,.field textarea:focus,.field select:focus,.search:focus{border-color:var(--gold)}
-.field textarea{min-height:95px;resize:vertical}
-.row{display:grid;grid-template-columns:1fr;gap:10px}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.toolbar .search{flex:1;min-width:150px}
-.empty{padding:28px 12px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:12px;line-height:1.8}
-.avatar{width:55px;height:55px;border-radius:12px;object-fit:cover;border:1px solid #625536;background:#1b2638}
-.person-head{display:flex;align-items:center;gap:12px}
-.badge{font-size:10px;color:#f1d99c;background:#322b1d;border-radius:5px;padding:5px 7px}
-.modal{position:fixed;inset:0;z-index:20;background:#000b;display:none;align-items:center;justify-content:center;padding:15px}
-.modal.show{display:flex}
-.modal-box{background:#0d1523;border:1px solid #655635;border-radius:14px;padding:18px;width:min(550px,100%);max-height:90vh;overflow:auto}
-.modal-box h2{margin-top:0;color:var(--gold2);font-size:19px}
-.modal-actions{display:flex;gap:8px;justify-content:flex-start;margin-top:16px;flex-wrap:wrap}
-.toast{position:fixed;bottom:18px;left:15px;right:15px;margin:auto;width:max-content;max-width:90%;z-index:30;background:#1a2b25;color:#baf2d4;border:1px solid #3c755c;padding:12px 16px;border-radius:9px;display:none}
-footer{text-align:center;color:#66758b;font-size:11px;padding:20px}
-hr{border:0;border-top:1px solid var(--border);margin:17px 0}
-@media(min-width:650px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.row.two{grid-template-columns:1fr 1fr}main{padding:28px 24px 50px}}
+.stat strong{display:block;font-size:27px;margin-top:10px}
+.card{transition:.2s}
+.card:hover{border-color:#7a2938;transform:translateY(-2px)}
+.card h3{font-size:15px;margin:0 0 9px;overflow-wrap:anywhere}
+.card p{font-size:12px;color:var(--muted);line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}
+.card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.card-actions .btn{padding:7px 9px}
+.dash{min-height:130px;text-align:right;color:white}
+.dash .symbol{font-size:24px;margin-bottom:15px}
+.dash small{display:block;color:var(--muted);margin-top:8px}
+.empty{
+  grid-column:1/-1;text-align:center;padding:35px 15px;
+  border:1px dashed var(--border);border-radius:12px;color:var(--muted)
+}
+.empty h3{color:white;font-size:15px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:12px;color:#cdd1dc}
+.full{grid-column:1/-1}
+.field textarea{min-height:100px;resize:vertical}
+.field small{font-size:10px;color:var(--muted);line-height:1.7}
+.checks{display:flex;gap:8px;flex-wrap:wrap}
+.checks label{display:flex;gap:7px;align-items:center;border:1px solid var(--border);padding:8px;border-radius:8px;font-size:12px}
+.checks input{width:auto}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.notice{margin-top:20px;padding:14px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:12px;line-height:1.9}
+.notice b{color:#d9b66e}
+#toast{
+  position:fixed;bottom:20px;left:15px;background:#20232d;
+  border:1px solid var(--border);padding:13px 16px;border-radius:10px;
+  z-index:20;display:none;max-width:90vw;font-size:12px
+}
+#modal{
+  display:none;position:fixed;inset:0;background:#000b;z-index:15;
+  align-items:center;justify-content:center;padding:15px
+}
+.modal-box{
+  width:min(650px,100%);max-height:90vh;overflow:auto;
+  background:#11131b;border:1px solid var(--border);
+  border-radius:15px;padding:18px
+}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-head h3{margin:0;font-size:17px}
+.chat{display:flex;flex-direction:column;gap:10px;max-height:420px;overflow:auto;margin-bottom:15px}
+.bubble{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;font-size:12px;padding:12px;border-radius:10px;max-width:90%}
+.bubble.user{align-self:flex-start;background:#2b1822}
+.bubble.ai{align-self:flex-end;background:#12201f;border:1px solid #29443d}
+.mobile-nav{display:none}
+@media(max-width:850px){
+  .layout{grid-template-columns:180px 1fr}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+  header{padding:12px}
+  h1{font-size:14px}
+  .layout{display:block}
+  aside{display:none}
+  main{padding:17px 12px 90px}
+  h2{font-size:22px}
+  .grid{grid-template-columns:1fr}
+  .stats{gap:8px}
+  .stat{padding:12px}
+  .form-grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .mobile-nav{
+    display:flex;position:fixed;bottom:0;left:0;right:0;
+    z-index:10;background:#101117f5;border-top:1px solid var(--border);
+    padding:6px;justify-content:space-around
+  }
+  .mobile-nav button{width:auto;text-align:center;font-size:10px;padding:8px 5px}
+  .mobile-nav button span{display:block;font-size:17px;margin-bottom:4px}
+  #toast{bottom:80px}
+}
 </style>
 </head>
 <body>
-<header class="topbar">
-<button class="menu-btn" id="menuBtn" aria-label="فتح القائمة">☰</button>
-<div class="brand">SIS <small>NIGHT CITY INTELLIGENCE</small></div>
-<div class="top-status">● SYSTEM ONLINE</div>
+<header>
+  <div class="brand">
+    <div class="logo">SIS</div>
+    <div><h1 id="brand">SIS — NIGHT CITY</h1><p>نظام إدارة المعلومات والشبكات</p></div>
+  </div>
+  <button class="btn" data-page="search">⌕ البحث</button>
 </header>
 
-<div class="overlay" id="overlay"></div>
-<aside class="sidebar" id="sidebar">
-<div class="nav-label">القائمة الرئيسية</div>
-<button class="nav-btn active" data-page="home"><span>⌂</span> الرئيسية</button>
-<button class="nav-btn" data-page="network"><span>◎</span> NETWORK — الشبكات</button>
-<button class="nav-btn" data-page="people"><span>♙</span> الأشخاص</button>
-<button class="nav-btn" data-page="files"><span>▤</span> الملفات</button>
-<button class="nav-btn" data-page="reports"><span>▧</span> التقارير والقضايا</button>
-<button class="nav-btn" data-page="search"><span>⌕</span> البحث المركزي</button>
-<div class="nav-label">إدارة النظام</div>
-<button class="nav-btn" data-page="tasks"><span>✓</span> المهام</button>
-<button class="nav-btn" data-page="members"><span>♧</span> الأعضاء</button>
-<button class="nav-btn" data-page="archive"><span>▣</span> الأرشيف</button>
-<button class="nav-btn" data-page="map"><span>⌖</span> المواقع</button>
-<button class="nav-btn" data-page="ai"><span>✧</span> SIS AI</button>
-<button class="nav-btn" data-page="settings"><span>⚙</span> الإعدادات</button>
+<div class="layout">
+<aside>
+  <nav id="sideNav">
+    <button class="active" data-page="dashboard">▦ لوحة التحكم</button>
+    <button data-page="networks">⌘ NETWORK</button>
+    <button data-page="people">♙ الأشخاص</button>
+    <button data-page="files">▤ الملفات</button>
+    <button data-page="reports">▧ التقارير الاستخباراتية</button>
+    <button data-page="search">⌕ البحث المركزي</button>
+    <button data-page="ai">✧ SIS AI</button>
+    <button data-page="archive">▣ الأرشيف</button>
+    <button data-page="settings">⚙ الإعدادات</button>
+  </nav>
+  <div class="notice">التخزين محلي على هذا المتصفح. لا توجد قاعدة بيانات خارجية.</div>
 </aside>
 
-<main id="app"></main>
-<footer>SIS — NIGHT CITY © 2026 · LOCAL WORKSPACE</footer>
-<div class="modal" id="modal"><div class="modal-box" id="modalBox"></div></div>
-<div class="toast" id="toast"></div>
+<main id="main"></main>
+</div>
+
+<div class="mobile-nav">
+  <button data-page="dashboard" class="active"><span>▦</span>الرئيسية</button>
+  <button data-page="networks"><span>⌘</span>الشبكات</button>
+  <button data-page="people"><span>♙</span>الأشخاص</button>
+  <button data-page="search"><span>⌕</span>البحث</button>
+  <button data-page="ai"><span>✧</span>SIS AI</button>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="modal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="modalTitle">إضافة</h3><button class="btn" data-action="close">✕</button></div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+<input type="file" id="importFile" accept=".json,application/json" hidden>
 
 <script>
-(function(){
-"use strict";
-const KEY="sis-night-city-full-v2";
-const emptyDB={networks:[],people:[],files:[],reports:[],tasks:[],members:[],archive:[],settings:{systemName:"SIS — NIGHT CITY",subtitle:"INTELLIGENCE MANAGEMENT SYSTEM",notice:"نظام إدارة المعلومات"}};
-let db;
-try{db={...emptyDB,...JSON.parse(localStorage.getItem(KEY)||"{}")};for(const k of ["networks","people","files","reports","tasks","members","archive"])if(!Array.isArray(db[k]))db[k]=[];db.settings={...emptyDB.settings,...db.settings}}catch(e){db=JSON.parse(JSON.stringify(emptyDB))}
-let page="home",query="",activeNetwork="",activeGroup="";
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(db));return true}catch(e){toast("مساحة التخزين ممتلئة. قلل حجم الصور.");return false}};
-function toast(s){$("toast").textContent=s;$("toast").style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>$("toast").style.display="none",2600)}
-function when(){return new Date().toLocaleString("ar-SA")}
-function safeImage(s){return s||""}
-function fileField(label,name,accept="image/*"){return `<div class="field"><label>${label}</label><input type="file" name="${name}" accept="${accept}"></div>`}
-function field(label,name,placeholder="",type="text",value=""){return `<div class="field"><label>${label}</label><input name="${name}" type="${type}" placeholder="${placeholder}" value="${esc(value)}"></div>`}
-function area(label,name,placeholder="",value=""){return `<div class="field"><label>${label}</label><textarea name="${name}" placeholder="${placeholder}">${esc(value)}</textarea></div>`}
-function selectField(label,name,opts,value=""){return `<div class="field"><label>${label}</label><select name="${name}">${opts.map(x=>`<option ${x===value?"selected":""}>${esc(x)}</option>`).join("")}</select></div>`}
-function btn(label,action,cls="secondary",id=""){return `<button class="btn ${cls}" data-action="${action}" ${id?`data-id="${esc(id)}"`:""}>${label}</button>`}
-function card(title,desc,tagText,actions="",image=""){return `<article class="item-card">${image?`<img class="avatar" src="${image}" alt="">`:""}${tagText?`<span class="tag">${esc(tagText)}</span>`:""}<h3>${esc(title)}</h3><p>${esc(desc||"لا توجد تفاصيل إضافية")}</p><div class="card-actions">${actions}</div></article>`}
-function filtered(arr){return arr.filter(x=>(x.name||x.title||x.subject||"").toLowerCase().includes(query.toLowerCase())||String(x.description||x.notes||"").toLowerCase().includes(query.toLowerCase()))}
-function searchBar(){return `<div class="toolbar"><input class="search" id="searchInput" placeholder="ابحث في هذا القسم..." value="${esc(query)}">${btn("مسح البحث","clear-search")}</div>`}
-function empty(text){return `<div class="empty">${text}</div>`}
-function head(title,desc,action=""){return `<div class="eyebrow">SIS / ${esc(page.toUpperCase())}</div><div class="section-h
+'use strict';
+
+const KEY='sis-night-city-v2';
+const schema={
+  networks:{label:'الشبكات',one:'شبكة',icon:'⌘'},
+  people:{label:'الأشخاص',one:'شخص',icon:'♙'},
+  files:{label:'الملفات',one:'ملف',icon:'▤'},
+  reports:{label:'التقارير الاستخباراتية',one:'تقرير',icon:'▧'}
+};
+const defaults=()=>({
+  settings:{appName:'SIS — NIGHT CITY',accent:'#e3263a',compact:false},
+  networks:[],people:[],files:[],reports:[],archive:[]
+});
+let state=load();
+let page='dashboard';
+let searchTerm='';
+let activeNetwork=null;
+let chat=[];
+
+const $=s=>document.querySelector(s);
+const $$=s=>Array.from(document.querySelectorAll(s));
+const uid=()=>Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[c]));
+
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(!raw)return defaults();
+    const d=JSON.parse(raw),b=defaults();
+    if(!d||typeof d!=='object')return b;
+    return {...b,...d,settings:{...b.settings,...(d.settings||{})},
+      networks:Array.isArray(d.networks)?d.networks:[],
+      people:Array.isArray(d.people)?d.people:[],
+      files:Array.isArray(d.files)?d.files:[],
+      reports:Array.isArray(d.reports)?d.reports:[],
+      archive:Array.isArray(d.archive)?d.archive:[]};
+  }catch(e){return defaults()}
+}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(state));return true}
+  catch(e){notify('تعذر الحفظ. مساحة التخزين قد تكون ممتلئة.');return false}
+}
+function notify(text){
+  const el=$('#toast');el.textContent=text;el.style.display='block';
+  clearTimeout(notify.timer);notify.timer=setTimeout(()=>el.style.display='none',3000);
+}
+function get(type,id){return state[type]?.find(x=>x.id===id)}
+function go(p){page=p;activeNetwork=null;render();window.scrollTo(0,0)}
+function head(title,sub,actions=''){
+ return `<div class="page-head"><div><h2>${title}</h2><div class="sub">${sub}</div></div><div class="actions">${actions}</div></div>`;
+}
+function button(text,action,type='',cls=''){
+ return `<button class="btn ${cls}" data-action="${action}" ${type?`data-type="${type}"`:''}>${text}</button>`;
+}
+function empty(title,description,action=''){
+ return `<div class="empty"><div style="font-size:28px">⌁</div><h3>${t

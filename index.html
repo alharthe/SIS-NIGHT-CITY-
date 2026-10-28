@@ -1600,3 +1600,158 @@ $("missionList").addEventListener("click", event => {
   if (button.dataset.requestMission) {
     const mission = data.missions.find(
       m => 
+
+x;
+">
+  <div style="width:min(420px,100%);background:#111720;border:1px solid #b9a16a;border-radius:16px;padding:25px">
+    <div class="brand-logo" style="margin:0 auto 18px">SIS</div>
+    <h2 style="color:#dfcc96;text-align:center;margin-bottom:10px">SIS — NIGHT CITY</h2>
+    <p style="color:#9ba5b3;text-align:center;line-height:1.8;margin-bottom:20px">بوابة الدخول إلى نظام إدارة المعلومات</p>
+    <form id="loginForm">
+      <div class="field" style="margin-bottom:14px">
+        <label for="loginName">اسم المستخدم</label>
+        <input id="loginName" required autocomplete="username" placeholder="أدخل اسم المستخدم">
+      </div>
+      <div class="field" style="margin-bottom:18px">
+        <label for="loginCode">رمز الدخول</label>
+        <input id="loginCode" type="password" required autocomplete="current-password" placeholder="أدخل رمز الدخول">
+      </div>
+      <button class="btn" type="submit" style="width:100%">دخول النظام</button>
+    </form>
+    <p style="color:#9ba5b3;font-size:11px;line-height:1.8;margin-top:15px;text-align:center">نسخة تجريبية محلية. تسجيل الدخول هنا ليس نظام حماية حقيقيًا.</p>
+  </div>
+</section>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-title">القائمة الرئيسية</div>
+    <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span> الرئيسية</button>
+    <button class="nav-btn" data-page="network"><span class="nav-icon">◎</span> NETWORK — الشبكات</button>
+    <button class="nav-btn" data-page="people"><span class="nav-icon">♙</span> الأشخاص</button>
+    <button class="nav-btn" data-page="files"><span class="nav-icon">▤</span> الملفات</button>
+    <button class="nav-btn" data-page="reports"><span class="nav-icon">▧</span> التقارير والقضايا</button>
+    <button class="nav-btn" data-page="search"><span class="nav-icon">⌕</span> البحث المركزي</button>
+    <div class="side-title">إدارة النظام</div>
+    <button class="nav-btn" data-page="tasks"><span class="nav-icon">✓</span> المهام</button>
+    <button class="nav-btn" data-page="members"><span class="nav-icon">♧</span> الأعضاء</button>
+    <button class="nav-btn" data-page="map"><span class="nav-icon">⌖</span> المواقع</button>
+    <button class="nav-btn" data-page="archive"><span class="nav-icon">▣</span> الأرشيف</button>
+    <button class="nav-btn" data-page="ai"><span class="nav-icon">✧</span> SIS AI</button>
+    <button class="nav-btn" data-page="settings"><span class="nav-icon">⚙</span> الإعدادات</button>
+    <div class="actions">
+      <button class="btn secondary small" id="logoutBtn">تسجيل الخروج</button>
+    </div>
+  </aside>
+
+  <div id="mobileShade" style="display:none;position:fixed;inset:60px 0 0;background:#0009;z-index:25"></div>
+
+  <main class="main" id="mainContent">
+    <section class="page active" id="page-home">
+      <div class="welcome">
+        <div class="eyebrow">INTELLIGENCE MANAGEMENT SYSTEM</div>
+        <h2>مرحبًا بك في SIS — NIGHT CITY</h2>
+        <p>مركز موحد لإدارة الشبكات والأشخاص والملفات والتقارير والمهام.</p>
+      </div>
+      <div class="stats">
+        <div class="stat-card"><div class="stat-label">الشبكات</div><div class="stat-number" id="countNetworks">0</div><div class="stat-note">الشبكات المسجلة</div></div>
+        <div class="stat-card"><div class="stat-label">الأشخاص</div><div class="stat-number" id="countPeople">0</div><div class="stat-note">الملفات الشخصية</div></div>
+        <div class="stat-card"><div class="stat-label">التقارير</div><div class="stat-number" id="countReports">0</div><div class="stat-note">التقارير المسجلة</div></div>
+        <div class="stat-card"><div class="stat-label">المهام المفتوحة</div><div class="stat-number" id="countTasks">0</div><div class="stat-note">تحتاج إلى متابعة</div></div>
+      </div>
+      <div class="section-heading"><div><h2>الوصول السريع</h2><p>افتح أي قسم لإدارة بياناته</p></div></div>
+      <div class="grid-3">
+        <div class="product-card"><h4>NETWORK</h4><p class="muted">الشبكات والقروبات</p><div class="actions"><button class="btn small" data-open="network">فتح</button></div></div>
+        <div class="product-card"><h4>الأشخاص</h4><p class="muted">الملفات الشخصية</p><div class="actions"><button class="btn small" data-open="people">فتح</button></div></div>
+        <div class="product-card"><h4>التقارير</h4><p class="muted">القضايا والملاحظات</p><div class="actions"><button class="btn small" data-open="reports">فتح</button></div></div>
+        <div class="product-card"><h4>المهام</h4><p class="muted">المتابعة والإنجاز</p><div class="actions"><button class="btn small" data-open="tasks">فتح</button></div></div>
+        <div class="product-card"><h4>البحث المركزي</h4><p class="muted">البحث في جميع السجلات</p><div class="actions"><button class="btn small" data-open="search">فتح</button></div></div>
+        <div class="product-card"><h4>الأرشيف</h4><p class="muted">استعادة العناصر المؤرشفة</p><div class="actions"><button class="btn small" data-open="archive">فتح</button></div></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-network">
+      <div class="section-heading"><div><h2>NETWORK — الشبكات</h2><p>أنشئ شبكات متعددة وأدر قروباتها</p></div><button class="btn" data-add="network">+ إنشاء شبكة</button></div>
+      <div id="networkList" class="item-list"></div>
+      <div id="networkDetails"></div>
+    </section>
+
+    <section class="page" id="page-people">
+      <div class="section-heading"><div><h2>الأشخاص</h2><p>ملفات شخصية وحالات وملاحظات</p></div><button class="btn" data-add="person">+ إضافة شخص</button></div>
+      <input class="search-input" data-filter="people" placeholder="ابحث عن شخص...">
+      <div id="peopleList" class="item-list" style="margin-top:14px"></div>
+    </section>
+
+    <section class="page" id="page-files">
+      <div class="section-heading"><div><h2>الملفات</h2><p>إدارة الوثائق والمرفقات</p></div><button class="btn" data-add="file">+ إضافة ملف</button></div>
+      <input class="search-input" data-filter="files" placeholder="ابحث عن ملف...">
+      <div id="filesList" class="item-list" style="margin-top:14px"></div>
+    </section>
+
+    <section class="page" id="page-reports">
+      <div class="section-heading"><div><h2>التقارير والقضايا</h2><p>إنشاء تقارير وتحديث حالتها</p></div><button class="btn" data-add="report">+ تقرير جديد</button></div>
+      <input class="search-input" data-filter="reports" placeholder="ابحث عن تقرير...">
+      <div id="reportsList" class="item-list" style="margin-top:14px"></div>
+    </section>
+
+    <section class="page" id="page-search">
+      <div class="section-heading"><div><h2>البحث المركزي</h2><p>ابحث داخل بيانات النظام</p></div></div>
+      <input id="globalSearch" class="search-input" placeholder="اكتب اسمًا أو كلمة للبحث...">
+      <div id="searchResults" class="item-list" style="margin-top:14px"></div>
+    </section>
+
+    <section class="page" id="page-tasks">
+      <div class="section-heading"><div><h2>المهام</h2><p>متابعة الأعمال وحالتها</p></div><button class="btn" data-add="task">+ مهمة جديدة</button></div>
+      <div id="tasksList" class="item-list"></div>
+    </section>
+
+    <section class="page" id="page-members">
+      <div class="section-heading"><div><h2>الأعضاء</h2><p>دليل أعضاء النظام وأدوارهم</p></div><button class="btn" data-add="member">+ عضو جديد</button></div>
+      <div id="membersList" class="item-list"></div>
+    </section>
+
+    <section class="page" id="page-map">
+      <div class="section-heading"><div><h2>المواقع</h2><p>سجل يدوي للمواقع الوصفية</p></div><button class="btn" data-add="location">+ إضافة موقع</button></div>
+      <div class="notice">هذا القسم يسجل معلومات مواقع تدخلها يدويًا، ولا يستخدم GPS أو يتتبع الأشخاص.</div>
+      <div id="locationsList" class="item-list"></div>
+    </section>
+
+    <section class="page" id="page-archive">
+      <div class="section-heading"><div><h2>الأرشيف</h2><p>استعادة العناصر أو حذفها نهائيًا</p></div></div>
+      <div id="archiveList" class="item-list"></div>
+    </section>
+
+    <section class="page" id="page-ai">
+      <div class="section-heading"><div><h2>SIS AI</h2><p>بحث مساعد في السجلات المحلية</p></div></div>
+      <div class="notice">هذا إصدار محلي يبحث داخل بياناتك فقط. لا يدّعي الاتصال بنموذج ذكاء اصطناعي خارجي.</div>
+      <div class="field"><label for="assistantQuery">ما الذي تريد البحث عنه؟</label><input id="assistantQuery" class="search-input" placeholder="اسم أو تقرير أو مهمة..."></div>
+      <div class="actions"><button class="btn" id="assistantRun">البحث في السجلات</button></div>
+      <div id="assistantResults" class="item-list" style="margin-top:14px"></div>
+    </section>
+
+    <section class="page" id="page-settings">
+      <div class="section-heading"><div><h2>الإعدادات</h2><p>تخصيص النظام والنسخ الاحتياطي</p></div></div>
+      <div class="panel">
+        <form id="settingsForm">
+          <div class="field"><label>اسم النظام</label><input name="systemName" id="settingName" value="SIS — NIGHT CITY" required></div>
+          <div class="field" style="margin-top:13px"><label>الوصف</label><input name="description" id="settingDescription" value="BRITISH INTELLIGENCE AGENCY"></div>
+          <div class="actions"><button class="btn" type="submit">حفظ الإعدادات</button></div>
+        </form>
+        <hr style="border-color:var(--border);margin:18px 0">
+        <div class="actions"><button class="btn secondary" id="exportBtn">تصدير نسخة احتياطية</button><button class="btn secondary" id="importBtn">استيراد نسخة احتياطية</button><input type="file" id="importFile" accept=".json,application/json" hidden></div>
+        <div class="notice" style="margin-top:14px">البيانات محفوظة محليًا في هذا المتصفح فقط. النسخة المحلية لا تزامن البيانات بين أجهزة المستخدمين.</div>
+      </div>
+    </section>
+
+    <div class="footer">SIS — NIGHT CITY © 2026</div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const DB_KEY = "sis-night-city-workspace-v1";
+  const $ = id => document.getElementById(id);
+  const uid = () =

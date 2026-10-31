@@ -1,354 +1,366 @@
 
-/* ==========================================
-   SIS SYSTEM — NIGHT CITY
-   British Intelligence Interface
-   ========================================== */
-
-"use strict";
-
 (() => {
-  const $ = (selector) => document.querySelector(selector);
-  const $$ = (selector) => [...document.querySelectorAll(selector)];
+  "use strict";
 
-  const STORAGE_KEY = "sis_night_city_v1";
+  const KEY = "sis_night_city_v2";
 
-  const state = {
-    page: "home",
-    search: "",
-    data: loadData()
-  };
+  const emptyData = () => ({
+    networks: [],
+    people: [],
+    files: [],
+    reports: [],
+    archive: [],
+    settings: { name: "SIS — NIGHT CITY" }
+  });
 
-  function loadData() {
+  function readData() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) return { ...defaultData(), ...JSON.parse(saved) };
-    } catch (error) {
-      console.warn("SIS storage unavailable", error);
+      const saved = JSON.parse(localStorage.getItem(KEY));
+      return saved && typeof saved === "object"
+        ? { ...emptyData(), ...saved }
+        : emptyData();
+    } catch {
+      return emptyData();
     }
-    return defaultData();
   }
 
-  function defaultData() {
-    return {
-      profile: {
-        name: "SIS DIRECTOR",
-        rank: "DIRECTOR",
-        department: "BRITISH INTELLIGENCE",
-        status: "ACTIVE",
-        code: "SIS-001"
-      },
-      members: [],
-      missions: [],
-      networks: [],
-      activities: [],
-      settings: {
-        systemName: "SIS — NIGHT CITY",
-        language: "ar",
-        notifications: true
-      }
-    };
-  }
+  let data = readData();
 
-  function saveData() {
+  function save() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
+      localStorage.setItem(KEY, JSON.stringify(data));
       return true;
-    } catch (error) {
-      toast("تعذر حفظ البيانات على هذا الجهاز", "error");
+    } catch {
+      toast("تعذر حفظ البيانات على هذا الجهاز");
       return false;
     }
   }
 
+  function toast(message) {
+    const box = document.getElementById("sisToast");
+    if (!box) return;
+    box.textContent = message;
+    box.style.display = "block";
+    clearTimeout(toast.timer);
+    toast.timer = setTimeout(() => {
+      box.style.display = "none";
+    }, 2600);
+  }
+
+  const types = {
+    networks: "الشبكات",
+    people: "الأشخاص",
+    files: "الملفات",
+    reports: "التقارير"
+  };
+
+  function makeId() {
+    return Date.now().toString(36) +
+      Math.random().toString(36).slice(2, 8);
+  }
+
   function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
+    return String(value ?? "").replace(/[&<>"']/g, c => ({
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#39;"
-    })[char]);
+    })[c]);
   }
 
-  function recordActivity(action, details = "") {
-    state.data.activities.unshift({
-      id: createId(),
-      action,
-      details,
-      date: new Date().toLocaleString("ar-SA")
+  function getList(type) {
+    return data[type] || [];
+  }
+
+  function addItem(type, item) {
+    if (!types[type]) return;
+    data[type].push({
+      id: makeId(),
+      createdAt: new Date().toISOString(),
+      ...item
     });
-
-    state.data.activities = state.data.activities.slice(0, 100);
-    saveData();
+    save();
+    loadSection(type === "networks" ? "network" : type);
+    toast("تمت الإضافة بنجاح");
   }
 
-  function createId() {
-    return "SIS-" + Date.now().toString(36).toUpperCase()
-      + Math.random().toString(36).slice(2, 6).toUpperCase();
-  }
+  function renderItems(type, elementId) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
 
-  function toast(message, type = "success") {
-    const container = $("#toast-container");
-    if (!container) {
-      console.log(message);
+    const items = getList(type);
+
+    if (!items.length) {
+      element.innerHTML = `<p class="empty-state">لا توجد ${types[type]} حتى الآن.</p>`;
       return;
     }
 
-    const item = document.createElement("div");
-    item.className = `sis-toast ${type}`;
-    item.textContent = message;
-    container.appendChild(item);
-
-    requestAnimationFrame(() => item.classList.add("show"));
-
-    setTimeout(() => {
-      item.classList.remove("show");
-      setTimeout(() => item.remove(), 250);
-    }, 3000);
+    element.innerHTML = items.map(item => `
+      <article class="sis-card" style="margin-top:12px">
+        <h3>${escapeHTML(item.name || item.title)}</h3>
+        <p>${escapeHTML(item.description || "لا يوجد وصف")}</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="sis-button" data-action="edit-item"
+            data-type="${type}" data-id="${item.id}">تعديل</button>
+          <button class="sis-button" data-action="archive-item"
+            data-type="${type}" data-id="${item.id}">أرشفة</button>
+          <button class="sis-button" data-action="delete-item"
+            data-type="${type}" data-id="${item.id}">حذف</button>
+        </div>
+      </article>
+    `).join("");
   }
 
-  const pages = {
-    home: {
-      title: "مركز العمليات",
-      eyebrow: "COMMAND CENTER",
-      description: "نظرة عامة على نظام SIS."
-    },
-    profile: {
-      title: "الملف الشخصي",
-      eyebrow: "PERSONNEL PROFILE",
-      description: "بيانات الملف المحفوظة على هذا الجهاز."
-    },
-    map: {
-      title: "الخريطة",
-      eyebrow: "GLOBAL MAP",
-      description: "مساحة تنظيمية للمواقع والملاحظات."
-    },
-    headquarters: {
-      title: "المقر الرئيسي",
-      eyebrow: "HEADQUARTERS",
-      description: "مركز إدارة معلومات النظام."
-    },
-    members: {
-      title: "الأعضاء",
-      eyebrow: "PERSONNEL DATABASE",
-      description: "إضافة الأسماء والرتب والبيانات."
-    },
-    missions: {
-      title: "المهام",
-      eyebrow: "MISSION CONTROL",
-      description: "إدارة المهام وحالاتها."
-    },
-    network: {
-      title: "شبكة الأشخاص",
-      eyebrow: "INTELLIGENCE NETWORK",
-      description: "تنظيم الأشخاص والعلاقات والملاحظات."
-    },
-    store: {
-      title: "المتجر والمكافآت",
-      eyebrow: "REWARDS",
-      description: "سجل المكافآت التجريبي."
-    },
-    ai: {
-      title: "مساعد SIS",
-      eyebrow: "SIS INTELLIGENCE ASSISTANT",
-      description: "ابحث في المعلومات المحفوظة داخل النظام."
-    },
-    settings: {
-      title: "الإعدادات",
-      eyebrow: "SYSTEM SETTINGS",
-      description: "إعدادات الواجهة والبيانات."
-    }
-  };
-
-  function setPage(page) {
-    if (!pages[page]) page = "home";
-    state.page = page;
-
-    $$(".nav-item, [data-page]").forEach(button => {
-      if (button.dataset.page) {
-        button.classList.toggle("active", button.dataset.page === page);
-      }
-    });
-
-    const title = $("#page-title");
-    const eyebrow = $("#page-eyebrow");
-    const description = $("#page-description");
-    const welcome = $("#welcome");
-    const view = $("#page-view");
-
-    if (title) title.textContent = pages[page].title;
-    if (eyebrow) eyebrow.textContent = pages[page].eyebrow;
-    if (description) description.textContent = pages[page].description;
-
-    if (welcome) welcome.hidden = page !== "home";
-    if (view) view.hidden = page === "home";
-
-    renderPage();
-    closeSidebar();
-  }
-
-  function renderPage() {
-    const content = $("#page-content");
-    if (!content) return;
-
-    const renderers = {
-      profile: renderProfile,
-      map: renderMap,
-      headquarters: renderHeadquarters,
-      members: renderMembers,
-      missions: renderMissions,
-      network: renderNetwork,
-      store: renderStore,
-      ai: renderAI,
-      settings: renderSettings
+  function loadSection(page) {
+    const mapping = {
+      network: ["networks", "networkList"],
+      people: ["people", "peopleList"],
+      files: ["files", "filesList"],
+      reports: ["reports", "reportsList"]
     };
 
-    content.innerHTML = renderers[state.page]
-      ? renderers[state.page]()
-      : "";
+    if (mapping[page]) {
+      renderItems(...mapping[page]);
+    }
 
-    if (state.page === "home") renderDashboard();
+    if (page === "archive") renderArchive();
+
+    if (page === "settings") {
+      const field = document.getElementById("systemName");
+      if (field) field.value = data.settings.name;
+    }
   }
 
-  function renderDashboard() {
-    const dashboard = $("#dashboard");
-    if (!dashboard) return;
+  function askForItem(type) {
+    const name = prompt("اكتب الاسم أو العنوان:");
+    if (!name || !name.trim()) return;
 
-    const stats = [
-      ["الأعضاء", state.data.members.length, "USERS"],
-      ["المهام", state.data.missions.length, "MISSIONS"],
-      ["الشبكة", state.data.networks.length, "NETWORK"],
-      ["السجلات", state.data.activities.length, "ACTIVITY LOG"]
-    ];
+    const description = prompt("اكتب الوصف (اختياري):") || "";
+    addItem(type, { name: name.trim(), description });
+  }
 
-    dashboard.innerHTML = `
-      <div class="sis-stats">
-        ${stats.map(([label, value, sub]) => `
-          <article class="sis-stat-card">
-            <span class="sis-stat-label">${escapeHTML(label)}</span>
-            <strong>${value}</strong>
-            <small>${escapeHTML(sub)}</small>
-          </article>
-        `).join("")}
+  function editItem(type, id) {
+    if (!types[type]) return;
+    const item = data[type].find(x => x.id === id);
+    if (!item) return;
+
+    const name = prompt("تعديل الاسم أو العنوان:", item.name || item.title);
+    if (!name || !name.trim()) return;
+
+    const description = prompt("تعديل الوصف:", item.description || "");
+    item.name = name.trim();
+    item.description = description || "";
+    save();
+    loadSection(type === "networks" ? "network" : type);
+    toast("تم تحديث البيانات");
+  }
+
+  function archiveItem(type, id) {
+    if (!types[type]) return;
+    const index = data[type].findIndex(x => x.id === id);
+    if (index < 0) return;
+
+    const item = data[type].splice(index, 1)[0];
+    data.archive.push({ ...item, originalType: type });
+    save();
+    loadSection(type === "networks" ? "network" : type);
+    toast("تم نقل العنصر إلى الأرشيف");
+  }
+
+  function deleteItem(type, id) {
+    if (!types[type]) return;
+    if (!confirm("هل تريد حذف هذا العنصر نهائيًا؟")) return;
+
+    data[type] = data[type].filter(x => x.id !== id);
+    save();
+    loadSection(type === "networks" ? "network" : type);
+    toast("تم الحذف");
+  }
+
+  function renderArchive() {
+    const box = document.getElementById("archiveList");
+    if (!box) return;
+
+    if (!data.archive.length) {
+      box.innerHTML = "<p>الأرشيف فارغ.</p>";
+      return;
+    }
+
+    box.innerHTML = data.archive.map(item => `
+      <article class="sis-card" style="margin-top:12px">
+        <h3>${escapeHTML(item.name || item.title)}</h3>
+        <p>${escapeHTML(types[item.originalType] || "عنصر")}</p>
+        <button class="sis-button" data-action="restore-item"
+          data-id="${item.id}">استعادة</button>
+        <button class="sis-button" data-action="delete-archive"
+          data-id="${item.id}">حذف نهائي</button>
+      </article>
+    `).join("");
+  }
+
+  function restoreItem(id) {
+    const index = data.archive.findIndex(x => x.id === id);
+    if (index < 0) return;
+
+    const item = data.archive.splice(index, 1)[0];
+    const type = item.originalType;
+    delete item.originalType;
+
+    if (!types[type]) return;
+    data[type].push(item);
+    save();
+    renderArchive();
+    toast("تمت استعادة العنصر");
+  }
+
+  function searchAll(query) {
+    const results = [];
+    const q = query.trim().toLowerCase();
+    if (!q) return results;
+
+    Object.keys(types).forEach(type => {
+      data[type].forEach(item => {
+        const text = `${item.name || ""} ${item.title || ""} ${item.description || ""}`.toLowerCase();
+        if (text.includes(q)) {
+          results.push({ ...item, type });
+        }
+      });
+    });
+
+    return results;
+  }
+
+  function exportData() {
+    const blob = new Blob(
+      [JSON.stringify(data, null, 2)],
+      { type: "application/json" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "SIS-NIGHT-CITY-backup.json";
+    link.click();
+    URL.revokeObjectURL(url);
+    toast("تم تصدير البيانات");
+  }
+
+  function importData() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json,application/json";
+
+    input.onchange = () => {
+      const file = input.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const imported = JSON.parse(reader.result);
+          if (!imported || typeof imported !== "object") {
+            throw new Error("Invalid data");
+          }
+
+          data = {
+            ...emptyData(),
+            ...imported,
+            settings: {
+              ...emptyData().settings,
+              ...(imported.settings || {})
+            }
+          };
+
+          save();
+          toast("تم استيراد البيانات");
+          window.SISApp?.navigate("home");
+        } catch {
+          toast("ملف النسخة الاحتياطية غير صالح");
+        }
+      };
+      reader.readAsText(file);
+    };
+
+    input.click();
+  }
+
+  function askAI() {
+    const field = document.getElementById("aiQuestion");
+    const box = document.getElementById("aiMessages");
+    if (!field || !box) return;
+
+    const question = field.value.trim();
+    if (!question) return;
+
+    const results = searchAll(question);
+    const answer = results.length
+      ? results.map(x => `${x.name || x.title} — ${types[x.type]}`).join("<br>")
+      : "لم أعثر على معلومات مطابقة في البيانات المحفوظة.";
+
+    box.innerHTML += `
+      <div class="sis-card" style="margin-top:10px">
+        <strong>أنت:</strong> ${escapeHTML(question)}
+        <p><strong>SIS AI:</strong><br>${answer}</p>
       </div>
-
-      <section class="sis-panel">
-        <div class="sis-panel-heading">
-          <div>
-            <span class="sis-eyebrow">SYSTEM STATUS</span>
-            <h3>حالة النظام</h3>
-          </div>
-          <span class="sis-status">واجهة تجريبية</span>
-        </div>
-        <p>تم تشغيل واجهة SIS محليًا. البيانات التي تضيفها تُحفظ في متصفح هذا الجهاز.</p>
-      </section>
-
-      <section class="sis-panel">
-        <div class="sis-panel-heading">
-          <div>
-            <span class="sis-eyebrow">RECENT ACTIVITY</span>
-            <h3>آخر النشاطات</h3>
-          </div>
-        </div>
-        ${activityList(5)}
-      </section>
     `;
+
+    field.value = "";
   }
 
-  function renderProfile() {
-    const p = state.data.profile;
+  document.addEventListener("click", event => {
+    const button = event.target.closest("[data-action]");
+    if (!button) return;
 
-    return `
-      <section class="sis-panel">
-        <span class="sis-eyebrow">PERSONNEL RECORD</span>
-        <h3>بيانات المستخدم</h3>
+    const action = button.dataset.action;
+    const type = button.dataset.type;
+    const id = button.dataset.id;
 
-        <form id="profile-form" class="sis-form">
-          <label>الاسم
-            <input name="name" value="${escapeHTML(p.name)}" required>
-          </label>
-          <label>الرتبة
-            <input name="rank" value="${escapeHTML(p.rank)}" required>
-          </label>
-          <label>القسم
-            <input name="department" value="${escapeHTML(p.department)}">
-          </label>
-          <label>الحالة
-            <select name="status">
-              ${["ACTIVE", "INACTIVE", "BUSY"].map(status =>
-                `<option ${p.status === status ? "selected" : ""}>${status}</option>`
-              ).join("")}
-            </select>
-          </label>
-          <label>المعرف
-            <input value="${escapeHTML(p.code)}" disabled>
-          </label>
-          <button class="sis-button primary" type="submit">حفظ الملف</button>
-        </form>
-      </section>
-    `;
-  }
+    switch (action) {
+      case "add-network": askForItem("networks"); break;
+      case "add-person": askForItem("people"); break;
+      case "add-file": askForItem("files"); break;
+      case "add-report": askForItem("reports"); break;
+      case "edit-item": editItem(type, id); break;
+      case "archive-item": archiveItem(type, id); break;
+      case "delete-item": deleteItem(type, id); break;
+      case "restore-item": restoreItem(id); break;
 
-  function renderMembers() {
-    return `
-      <section class="sis-panel">
-        <h3>إضافة عضو</h3>
-        <form id="member-form" class="sis-form">
-          <label>الاسم
-            <input name="name" placeholder="اسم العضو" required>
-          </label>
-          <label>الرتبة
-            <input name="rank" placeholder="الرتبة" required>
-          </label>
-          <label>القسم
-            <input name="department" placeholder="القسم">
-          </label>
-          <button class="sis-button primary" type="submit">+ إضافة عضو</button>
-        </form>
-      </section>
-      <section class="sis-panel">
-        <h3>قاعدة بيانات الأعضاء</h3>
-        ${state.data.members.length ? `
-          <div class="sis-table-wrap"><table class="sis-table">
-            <thead><tr><th>الاسم</th><th>الرتبة</th><th>القسم</th><th>إجراء</th></tr></thead>
-            <tbody>
-              ${state.data.members.map(m => `
-                <tr>
-                  <td>${escapeHTML(m.name)}</td>
-                  <td>${escapeHTML(m.rank)}</td>
-                  <td>${escapeHTML(m.department || "—")}</td>
-                  <td><button class="sis-button danger small" data-action="delete-member" data-id="${escapeHTML(m.id)}">حذف</button></td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table></div>
-        ` : emptyState("لا يوجد أعضاء", "أضف أول عضو إلى القائمة.")}
-      </section>
-    `;
-  }
+      case "delete-archive":
+        if (confirm("حذف نهائي؟")) {
+          data.archive = data.archive.filter(x => x.id !== id);
+          save();
+          renderArchive();
+          toast("تم الحذف النهائي");
+        }
+        break;
 
-  function renderMissions() {
-    return `
-      <section class="sis-panel">
-        <h3>إنشاء مهمة</h3>
-        <form id="mission-form" class="sis-form">
-          <label>عنوان المهمة
-            <input name="title" placeholder="عنوان المهمة" required>
-          </label>
-          <label>الوصف
-            <textarea name="description" rows="3" placeholder="تفاصيل المهمة"></textarea>
-          </label>
-          <label>الحالة
-            <select name="status">
-              <option>جديدة</option>
-              <option>قيد التنفيذ</option>
-              <option>مكتملة</option>
-              <option>مؤجلة</option>
-            </select>
-          </label>
-          <button class="sis-button primary" type="submit">إضافة المهمة</button>
-        </form>
-      </section>
-      <section class="sis-panel">
-        <h3>قائمة المهام</h3>
-        ${state.data.missions.length ? state.data.missions.map(m => `
-          <art
+      case "ask-ai": askAI(); break;
+      case "export-data": exportData(); break;
+      case "import-data": importData(); break;
+
+      case "save-settings": {
+        const field = document.getElementById("systemName");
+        if (field) {
+          data.settings.name = field.value.trim() || "SIS — NIGHT CITY";
+          save();
+          toast("تم حفظ الإعدادات");
+        }
+        break;
+      }
+    }
+  });
+
+  document.addEventListener("input", event => {
+    if (event.target.id !== "globalSearch") return;
+
+    const box = document.getElementById("searchResults");
+    if (!box) return;
+
+    const results = searchAll(event.target.value);
+    box.innerHTML = results.length
+      ? results.map(x => `
+          <div class="sis-card" style="margin-top:10px">
+            <strong>${escapeHTML(x.name || x.title)}</strong>
+            <p>${escapeHTML(types[x.type])}</p>
+          <
